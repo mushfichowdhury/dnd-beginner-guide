@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Source } from "@/types";
+import { Tier } from "@/data/rankings";
 import SourceBadge from "./SourceBadge";
+import TierBadge from "./TierBadge";
 
 interface SelectionCardProps {
   title: string;
@@ -13,6 +15,7 @@ interface SelectionCardProps {
   onClick: () => void;
   tags?: string[];
   extraNote?: string;
+  tier?: Tier;
 }
 
 export default function SelectionCard({
@@ -24,6 +27,7 @@ export default function SelectionCard({
   onClick,
   tags,
   extraNote,
+  tier,
 }: SelectionCardProps) {
   return (
     <motion.button
@@ -39,7 +43,10 @@ export default function SelectionCard({
     >
       <div className="mb-2 flex items-center justify-between gap-2">
         <h3 className="text-lg font-semibold text-amber-400">{title}</h3>
-        <SourceBadge source={source} />
+        <div className="flex items-center gap-1.5">
+          {tier && <TierBadge tier={tier} />}
+          <SourceBadge source={source} />
+        </div>
       </div>
       <p className="mb-2 text-sm leading-relaxed text-gray-300">{synopsis}</p>
       <p className="mb-3 flex items-start gap-1.5 text-sm italic text-gray-400">

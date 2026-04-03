@@ -148,4 +148,129 @@ export const races: Race[] = [
     editions: ["5.5e"],
     source: "PHB",
   },
+
+  // ========== VOLO'S GUIDE RACES (5e only) ==========
+  {
+    id: "tabaxi",
+    name: "Tabaxi",
+    synopsis:
+      "Tabaxi are curious cat-folk driven by an insatiable wanderlust. They are incredibly fast and agile, capable of bursts of speed that leave other races in the dust.",
+    hint: "Good if you want incredible speed and climbing, plus a feline aesthetic",
+    abilityBonuses: "+2 Dexterity, +1 Charisma",
+    traits: ["Darkvision", "Feline Agility", "Cat's Claws", "Cat's Talent"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "firbolg",
+    name: "Firbolg",
+    synopsis:
+      "Firbolgs are gentle, reclusive giants with a deep bond to nature. They can turn invisible, disguise themselves with magic, and communicate with beasts and plants.",
+    hint: "Good if you want a gentle giant who uses nature magic and stealth",
+    abilityBonuses: "+2 Wisdom, +1 Strength",
+    traits: ["Firbolg Magic", "Hidden Step", "Powerful Build", "Speech of Beast and Leaf"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "kenku",
+    name: "Kenku",
+    synopsis:
+      "Kenku are flightless crow-folk cursed to only speak through mimicry. They are exceptional forgers and imitators, making them natural rogues and tricksters.",
+    hint: "Good if you love creative roleplay and mimicking sounds and voices",
+    abilityBonuses: "+2 Dexterity, +1 Wisdom",
+    traits: ["Expert Forgery", "Kenku Training", "Mimicry"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "goblin",
+    name: "Goblin",
+    synopsis:
+      "Goblins are small, scrappy survivors who punch above their weight. Their ability to disengage or hide as a bonus action makes them slippery and hard to pin down.",
+    hint: "Good if you want a small, cunning trickster who's hard to catch",
+    abilityBonuses: "+2 Dexterity, +1 Constitution",
+    traits: ["Darkvision", "Fury of the Small", "Nimble Escape"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "bugbear",
+    name: "Bugbear",
+    synopsis:
+      "Bugbears are hulking goblinoids who combine brute strength with surprising stealth. Their long arms give them extra reach, and they deal devastating damage from ambushes.",
+    hint: "Good if you want to hit hard from surprise with extra melee reach",
+    abilityBonuses: "+2 Strength, +1 Dexterity",
+    traits: ["Darkvision", "Long-Limbed", "Powerful Build", "Surprise Attack", "Sneaky"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "lizardfolk",
+    name: "Lizardfolk",
+    synopsis:
+      "Lizardfolk are cold-blooded reptilian hunters with natural armor and powerful jaws. They view the world through a pragmatic, survival-first lens that makes for unique roleplay.",
+    hint: "Good if you want natural armor, a bite attack, and a survivalist mindset",
+    abilityBonuses: "+2 Constitution, +1 Wisdom",
+    traits: ["Natural Armor", "Hungry Jaws", "Cunning Artisan", "Hold Breath", "Hunter's Lore"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "kobold",
+    name: "Kobold",
+    synopsis:
+      "Kobolds are small, dragon-worshipping reptilians who thrive through teamwork and cunning traps. Their Pack Tactics ability makes them deadly when fighting alongside allies.",
+    hint: "Good if you want advantage on attacks whenever an ally is nearby",
+    abilityBonuses: "+2 Dexterity, -2 Strength",
+    traits: ["Darkvision", "Grovel Cower and Beg", "Pack Tactics", "Sunlight Sensitivity"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "yuan-ti-pureblood",
+    name: "Yuan-Ti Pureblood",
+    synopsis:
+      "Yuan-Ti Purebloods are serpentine humanoids with innate magic resistance and poison immunity. They are often considered one of the most mechanically powerful races in 5e.",
+    hint: "Good if you want magic resistance and innate spellcasting — very powerful",
+    abilityBonuses: "+2 Charisma, +1 Intelligence",
+    traits: ["Darkvision", "Innate Spellcasting", "Magic Resistance", "Poison Immunity"],
+    editions: ["5e"],
+    source: "Volo's Guide",
+  },
+  {
+    id: "tortle",
+    name: "Tortle",
+    synopsis:
+      "Tortles are nomadic turtle-folk with a natural shell that provides exceptional armor. They need no equipment to be well-protected, making them ideal for classes that lack armor proficiency.",
+    hint: "Good if you want 17 AC with no armor — great for monks, druids, and casters",
+    abilityBonuses: "+2 Strength, +1 Wisdom",
+    traits: ["Natural Armor", "Claws", "Hold Breath", "Shell Defense", "Survival Instinct"],
+    editions: ["5e"],
+    source: "Xanathar's Guide",
+  },
+
+  // ========== MORDENKAINEN'S RACES (5e only) ==========
+  {
+    id: "aarakocra",
+    name: "Aarakocra",
+    synopsis:
+      "Aarakocra are bird-folk from the Elemental Plane of Air who possess the coveted ability to fly from level 1. Their aerial mobility is unmatched among playable races.",
+    hint: "Good if you want to fly from level 1 — one of the strongest racial features",
+    abilityBonuses: "+2 Dexterity, +1 Wisdom",
+    traits: ["Flight", "Talons", "Wind Caller"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+  {
+    id: "genasi",
+    name: "Genasi",
+    synopsis:
+      "Genasi are planetouched beings infused with elemental power. Choose Air, Earth, Fire, or Water — each grants unique resistances, abilities, and innate spellcasting tied to your element.",
+    hint: "Good if you want elemental powers — pick your element and lean into it",
+    abilityBonuses: "+2 Constitution, +1 varies by element",
+    traits: ["Elemental Heritage", "Innate Spellcasting", "Elemental Resistance"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
 ];

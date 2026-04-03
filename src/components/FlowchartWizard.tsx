@@ -6,6 +6,7 @@ import { Edition, Step, Race, DndClass, Subclass, CharacterSelections } from "@/
 import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import { subclasses } from "@/data/subclasses";
+import { classRankings, subclassRankings, Tier } from "@/data/rankings";
 import EditionToggle from "./EditionToggle";
 import StepIndicator from "./StepIndicator";
 import CardGrid from "./CardGrid";
@@ -13,6 +14,10 @@ import SelectionCard from "./SelectionCard";
 import SelectionSidebar from "./SelectionSidebar";
 import SourceBadge from "./SourceBadge";
 import FlowArrow from "./FlowArrow";
+
+type SortMode = "default" | "reddit";
+
+const tierOrder: Record<Tier, number> = { S: 0, A: 1, B: 2, C: 3 };
 
 const stepOrder: Step[] = ["race", "class", "subclass", "summary"];
 
@@ -40,6 +45,8 @@ export default function FlowchartWizard() {
   const [selectedClass, setSelectedClass] = useState<DndClass | null>(null);
   const [selectedSubclass, setSelectedSubclass] = useState<Subclass | null>(null);
   const [direction, setDirection] = useState(1);
+  const [classSortMode, setClassSortMode] = useState<SortMode>("default");
+  const [subclassSortMode, setSubclassSortMode] = useState<SortMode>("default");
 
   const raceLabel = edition === "5.5e" ? "Species" : "Race";
 
@@ -123,6 +130,14 @@ export default function FlowchartWizard() {
     ? subclasses.filter((s) => s.classId === selectedClass.id)
     : [];
 
+  const sortedClasses = classSortMode === "reddit"
+    ? [...classes].sort((a, b) => tierOrder[classRankings[a.id] ?? "C"] - tierOrder[classRankings[b.id] ?? "C"])
+    : classes;
+
+  const sortedSubclasses = subclassSortMode === "reddit"
+    ? [...filteredSubclasses].sort((a, b) => tierOrder[subclassRankings[a.id] ?? "C"] - tierOrder[subclassRankings[b.id] ?? "C"])
+    : filteredSubclasses;
+
   return (
     <div>
       <StepIndicator
@@ -183,11 +198,14 @@ export default function FlowchartWizard() {
                   <h2 className="mb-2 text-2xl font-bold text-gray-100 font-heading">
                     Choose Your Class
                   </h2>
-                  <p className="mb-6 text-gray-400">
-                    Your class defines your abilities, playstyle, and role in the party.
-                  </p>
+                  <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-gray-400">
+                      Your class defines your abilities, playstyle, and role in the party.
+                    </p>
+                    <SortDropdown value={classSortMode} onChange={setClassSortMode} />
+                  </div>
                   <CardGrid>
-                    {classes.map((cls) => (
+                    {sortedClasses.map((cls) => (
                       <SelectionCard
                         key={cls.id}
                         title={cls.name}
@@ -197,6 +215,7 @@ export default function FlowchartWizard() {
                         selected={selectedClass?.id === cls.id}
                         onClick={() => handleClassSelect(cls)}
                         tags={[cls.hitDie, cls.role]}
+                        tier={classSortMode === "reddit" ? classRankings[cls.id] : undefined}
                       />
                     ))}
                   </CardGrid>
@@ -209,15 +228,18 @@ export default function FlowchartWizard() {
                   <h2 className="mb-2 text-2xl font-bold text-gray-100 font-heading">
                     Choose Your Subclass
                   </h2>
-                  <p className="mb-6 text-gray-400">
-                    Your subclass specializes your{" "}
-                    <span className="font-semibold text-amber-400">
-                      {selectedClass?.name ?? "class"}
-                    </span>{" "}
-                    with unique abilities and flavor.
-                  </p>
+                  <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-gray-400">
+                      Your subclass specializes your{" "}
+                      <span className="font-semibold text-amber-400">
+                        {selectedClass?.name ?? "class"}
+                      </span>{" "}
+                      with unique abilities and flavor.
+                    </p>
+                    <SortDropdown value={subclassSortMode} onChange={setSubclassSortMode} />
+                  </div>
                   <CardGrid>
-                    {filteredSubclasses.map((sub) => (
+                    {sortedSubclasses.map((sub) => (
                       <SelectionCard
                         key={sub.id}
                         title={sub.name}
@@ -226,6 +248,7 @@ export default function FlowchartWizard() {
                         source={sub.source}
                         selected={selectedSubclass?.id === sub.id}
                         onClick={() => handleSubclassSelect(sub)}
+                        tier={subclassSortMode === "reddit" ? subclassRankings[sub.id] : undefined}
                       />
                     ))}
                   </CardGrid>
@@ -424,6 +447,28 @@ export default function FlowchartWizard() {
           onStepClick={handleSidebarClick}
         />
       </div>
+    </div>
+  );
+}
+
+function SortDropdown({
+  value,
+  onChange,
+}: {
+  value: SortMode;
+  onChange: (mode: SortMode) => void;
+}) {
+  return (
+    <div className="flex shrink-0 items-center gap-2">
+      <label className="text-xs text-gray-500">Sort:</label>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as SortMode)}
+        className="rounded border border-gray-700 bg-gray-800 px-2 py-1 text-sm text-gray-300 outline-none focus:border-amber-500"
+      >
+        <option value="default">Default</option>
+        <option value="reddit">Reddit Ranking</option>
+      </select>
     </div>
   );
 }

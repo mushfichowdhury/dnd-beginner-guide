@@ -1,5 +1,5 @@
 export type Edition = "5e" | "5.5e";
-export type Source = "PHB" | "Tasha's Cauldron" | "Xanathar's Guide";
+export type Source = "PHB" | "Tasha's Cauldron" | "Xanathar's Guide" | "Volo's Guide" | "Mordenkainen's";
 
 export interface Race {
   id: string;
