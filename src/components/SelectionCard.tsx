@@ -6,6 +6,9 @@ import { Source, SubclassFeature, HealthTier, ClassProficiencies } from "@/types
 import { Tier } from "@/data/rankings";
 import SourceBadge from "./SourceBadge";
 import TierBadge from "./TierBadge";
+import Tooltip from "./Tooltip";
+import { traitDescriptions } from "@/data/traitDescriptions";
+import { skillDescriptions } from "@/data/skillDescriptions";
 
 const healthTierStyles: Record<HealthTier, string> = {
   "High": "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
@@ -26,6 +29,7 @@ interface SelectionCardProps {
   tier?: Tier;
   features?: SubclassFeature[];
   healthTier?: HealthTier;
+  hitDie?: string;
   proficiencies?: ClassProficiencies;
 }
 
@@ -41,6 +45,7 @@ export default function SelectionCard({
   tier,
   features,
   healthTier,
+  hitDie,
   proficiencies,
 }: SelectionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,12 +65,12 @@ export default function SelectionCard({
       }}
       className={`card-celestial w-full cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 ${
         selected
-          ? "ring-2 ring-amber-400/80 bg-gray-800/90 border-amber-500/60"
-          : "border-indigo-500/20 bg-gray-900/80 hover:border-amber-500/40 hover:bg-gray-900/95"
+          ? "ring-2 ring-white/70 bg-gray-800/90 border-white/50"
+          : "border-indigo-500/20 bg-gray-900/80 hover:border-white/30 hover:bg-gray-900/95"
       }`}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
-        <h3 className="min-w-0 truncate text-lg font-semibold text-amber-400 font-heading text-glow-sm">{title}</h3>
+        <h3 className="min-w-0 truncate text-lg font-semibold text-white font-heading text-glow-sm">{title}</h3>
         <div className="flex shrink-0 items-center gap-1.5">
           {tier && <TierBadge tier={tier} />}
           <SourceBadge source={source} />
@@ -73,7 +78,7 @@ export default function SelectionCard({
       </div>
       <p className="mb-2 text-sm leading-relaxed text-gray-300">{synopsis}</p>
       <p className="mb-3 flex items-start gap-1.5 text-sm italic text-gray-400">
-        <svg width="16" height="16" viewBox="0 0 16 16" className="mt-0.5 shrink-0 text-amber-500/60" fill="currentColor">
+        <svg width="16" height="16" viewBox="0 0 16 16" className="mt-0.5 shrink-0 text-white/50" fill="currentColor">
           <path d="M8 1a5 5 0 0 0-2 9.584V12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1.416A5 5 0 0 0 8 1zm0 2a3 3 0 0 1 1.5 5.598V11h-3V8.598A3 3 0 0 1 8 3zM6 14h4v1a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-1z" />
         </svg>
         {hint}
@@ -82,19 +87,22 @@ export default function SelectionCard({
       {/* Health tier + role tags */}
       <div className="flex flex-wrap gap-1.5">
         {healthTier && (
-          <span
-            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${healthTierStyles[healthTier]}`}
-          >
-            {healthTier === "Above Average" ? "Above Avg" : healthTier} Health
-          </span>
+          <Tooltip text={hitDie ? `Hit Die: ${hitDie}` : undefined}>
+            <span
+              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${healthTierStyles[healthTier]}`}
+            >
+              {healthTier === "Above Average" ? "Above Avg" : healthTier} Health
+            </span>
+          </Tooltip>
         )}
         {tags && tags.map((tag) => (
-          <span
-            key={tag}
-            className="inline-flex items-center justify-center rounded-full bg-gray-800/80 border border-gray-700/50 px-2 py-0.5 text-xs text-gray-400"
-          >
-            {tag}
-          </span>
+          <Tooltip key={tag} text={traitDescriptions[tag]}>
+            <span
+              className="inline-flex items-center justify-center rounded-full bg-gray-800/80 border border-gray-700/50 px-2 py-0.5 text-xs text-gray-400"
+            >
+              {tag}
+            </span>
+          </Tooltip>
         ))}
       </div>
 
@@ -129,7 +137,7 @@ export default function SelectionCard({
             <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">Saving Throws</span>
             <div className="mt-0.5 flex flex-wrap gap-1">
               {proficiencies.savingThrows.map((s) => (
-                <span key={s} className="rounded-md bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 text-[10px] text-amber-300">
+                <span key={s} className="rounded-md bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 text-[10px] text-cyan-300">
                   {s}
                 </span>
               ))}
@@ -141,9 +149,11 @@ export default function SelectionCard({
             </span>
             <div className="mt-0.5 flex flex-wrap gap-1">
               {proficiencies.skills.from.map((s) => (
-                <span key={s} className="rounded-md bg-gray-700/50 border border-gray-600/30 px-1.5 py-0.5 text-[10px] text-gray-400">
-                  {s}
-                </span>
+                <Tooltip key={s} text={skillDescriptions[s]}>
+                  <span className="rounded-md bg-gray-700/50 border border-gray-600/30 px-1.5 py-0.5 text-[10px] text-gray-400">
+                    {s}
+                  </span>
+                </Tooltip>
               ))}
             </div>
           </div>
@@ -151,7 +161,7 @@ export default function SelectionCard({
       )}
 
       {extraNote && (
-        <p className="mt-2 rounded bg-amber-500/10 px-2 py-1.5 text-xs text-amber-300">
+        <p className="mt-2 rounded bg-white/10 px-2 py-1.5 text-xs text-gray-200">
           5.5e: {extraNote}
         </p>
       )}
@@ -163,7 +173,7 @@ export default function SelectionCard({
               e.stopPropagation();
               setIsExpanded((v) => !v);
             }}
-            className="mt-3 flex w-full items-center justify-center gap-1 text-xs text-amber-500/70 transition-colors hover:text-amber-400"
+            className="mt-3 flex w-full items-center justify-center gap-1 text-xs text-white/60 transition-colors hover:text-white"
           >
             <span>{isExpanded ? "Hide abilities" : "Show abilities by level"}</span>
             <svg
@@ -189,7 +199,7 @@ export default function SelectionCard({
                   {features.map((f) => (
                     <div key={f.level}>
                       <div className="flex items-center gap-1.5">
-                        <span className="shrink-0 rounded bg-amber-500/20 px-1.5 py-0.5 text-xs font-bold text-amber-400">
+                        <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-xs font-bold text-white">
                           Lv {f.level}
                         </span>
                         <span className="truncate text-xs font-semibold text-gray-200">{f.name}</span>

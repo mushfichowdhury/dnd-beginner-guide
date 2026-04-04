@@ -15,10 +15,7 @@ type Particle = {
 };
 
 const STAR_COLORS = [
-  { color: "#fbbf24", weight: 0.50 }, // amber/gold
-  { color: "#60a5fa", weight: 0.25 }, // cool blue
-  { color: "#a78bfa", weight: 0.15 }, // soft purple
-  { color: "#f9fafb", weight: 0.10 }, // white
+  { color: "rgba(255, 255, 255, 0.7)", weight: 1.0 },
 ];
 
 function pickStarColor(): string {
@@ -43,12 +40,12 @@ interface FloatingParticlesBackgroundProps {
 
 export default function FloatingParticlesBackground({
   className,
-  particleCount = 180,
-  particleSize = 2.8,
-  particleOpacity = 0.82,
-  glowIntensity = 22,
+  particleCount = 120,
+  particleSize = 1.8,
+  particleOpacity = 0.18,
+  glowIntensity = 3,
   movementSpeed = 0.45,
-  mouseInfluence = 300,
+  mouseInfluence = 80,
 }: FloatingParticlesBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -124,10 +121,10 @@ export default function FloatingParticlesBackground({
 
         if (distance > 0 && distance < mouseInfluence) {
           const force = (mouseInfluence - distance) / mouseInfluence;
-          particle.vx -= (dx / distance) * force * 0.055;
-          particle.vy -= (dy / distance) * force * 0.055;
-          particle.opacity = Math.min(1, particle.baseOpacity + force * 0.72);
-          particle.glowMultiplier += (1 + force * 3.6 - particle.glowMultiplier) * 0.22;
+          particle.vx -= (dx / distance) * force * 0.008;
+          particle.vy -= (dy / distance) * force * 0.008;
+          particle.opacity = Math.min(1, particle.baseOpacity + force * 0.1);
+          particle.glowMultiplier += (1 + force * 0.5 - particle.glowMultiplier) * 0.22;
         } else {
           particle.opacity += (particle.baseOpacity - particle.opacity) * 0.08;
           particle.glowMultiplier += (1 - particle.glowMultiplier) * 0.08;

@@ -20,7 +20,7 @@ export default function FlowArrow({
         height={isDown ? 48 : 24}
         viewBox={isDown ? "0 0 24 48" : "0 0 48 24"}
         fill="none"
-        className="text-amber-500/60"
+        className="text-white/50"
       >
         <motion.path
           d={

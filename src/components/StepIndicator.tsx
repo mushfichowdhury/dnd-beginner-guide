@@ -60,9 +60,9 @@ export default function StepIndicator({
               onClick={() => canClick && onStepClick(step.key)}
               className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                 isCurrent
-                  ? "bg-amber-500 text-gray-950"
+                  ? "bg-white text-gray-950"
                   : isCompleted
-                    ? "bg-gray-800 text-amber-400 hover:bg-gray-700 cursor-pointer"
+                    ? "bg-gray-800 text-white hover:bg-gray-700 cursor-pointer"
                     : "bg-gray-900 text-gray-500 cursor-default"
               }`}
             >

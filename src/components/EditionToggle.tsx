@@ -26,7 +26,7 @@ export default function EditionToggle({
             onClick={() => onChange(opt.value)}
             className={`rounded-lg px-4 py-2 text-sm font-medium font-heading transition-all ${
               edition === opt.value
-                ? "bg-amber-500 text-gray-950 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
+                ? "bg-white text-gray-950 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                 : "text-gray-400 hover:text-gray-200"
             }`}
           >

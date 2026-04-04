@@ -16,7 +16,7 @@ export default function StarConnector({ label }: StarConnectorProps) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="h-8 w-px origin-top"
         style={{
-          background: "linear-gradient(to bottom, transparent, rgba(167, 139, 250, 0.5), rgba(251, 191, 36, 0.6))",
+          background: "linear-gradient(to bottom, transparent, rgba(167, 139, 250, 0.4), rgba(255, 255, 255, 0.5))",
         }}
       />
 
@@ -31,7 +31,7 @@ export default function StarConnector({ label }: StarConnectorProps) {
         <div
           className="absolute -inset-3 rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(251,191,36,0.3) 0%, rgba(167,139,250,0.15) 50%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(167,139,250,0.12) 50%, transparent 70%)",
           }}
         />
         {/* Inner glow pulse */}
@@ -40,15 +40,15 @@ export default function StarConnector({ label }: StarConnectorProps) {
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           className="absolute -inset-1.5 rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(251,191,36,0.5) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)",
           }}
         />
         {/* Star core */}
         <div
           className="relative h-3 w-3 rounded-full"
           style={{
-            background: "radial-gradient(circle, #fef3c7 0%, #fbbf24 50%, #d97706 100%)",
-            boxShadow: "0 0 12px rgba(251,191,36,0.8), 0 0 24px rgba(251,191,36,0.4), 0 0 48px rgba(167,139,250,0.2)",
+            background: "radial-gradient(circle, #ffffff 0%, #d1d5db 50%, #9ca3af 100%)",
+            boxShadow: "0 0 12px rgba(255,255,255,0.7), 0 0 24px rgba(255,255,255,0.3), 0 0 48px rgba(167,139,250,0.15)",
           }}
         />
       </motion.div>
@@ -72,7 +72,7 @@ export default function StarConnector({ label }: StarConnectorProps) {
         transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
         className="h-8 w-px origin-top"
         style={{
-          background: "linear-gradient(to bottom, rgba(251, 191, 36, 0.6), rgba(167, 139, 250, 0.5), transparent)",
+          background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(167, 139, 250, 0.4), transparent)",
         }}
       />
     </div>

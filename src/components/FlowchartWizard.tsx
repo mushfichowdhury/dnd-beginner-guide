@@ -12,6 +12,8 @@ import CardGrid from "./CardGrid";
 import SelectionCard from "./SelectionCard";
 import SourceBadge from "./SourceBadge";
 import StarConnector from "./StarConnector";
+import Tooltip from "./Tooltip";
+import { traitDescriptions } from "@/data/traitDescriptions";
 
 type SortMode = "default" | "reddit";
 
@@ -134,7 +136,7 @@ export default function FlowchartWizard() {
             <p className="mb-6 text-center text-gray-400">
               Your {raceLabel.toLowerCase()} determines your innate abilities, traits, and appearance.
               {edition === "5.5e" && (
-                <span className="ml-1 text-amber-400/70">
+                <span className="ml-1 text-white/70">
                   In 5.5e, ability scores are tied to your background, not species.
                 </span>
               )}
@@ -191,6 +193,7 @@ export default function FlowchartWizard() {
                       onClick={() => handleClassSelect(cls)}
                       tags={[cls.role]}
                       healthTier={cls.healthTier}
+                      hitDie={cls.hitDie}
                       proficiencies={cls.proficiencies}
                       tier={classSortMode === "reddit" ? classRankings[cls.id] : undefined}
                     />
@@ -221,7 +224,7 @@ export default function FlowchartWizard() {
                 <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-center sm:text-left text-gray-400">
                     Your subclass specializes your{" "}
-                    <span className="font-semibold text-amber-400">
+                    <span className="font-semibold text-white">
                       {selectedClass?.name ?? "class"}
                     </span>{" "}
                     with unique abilities and flavor.
@@ -270,7 +273,7 @@ export default function FlowchartWizard() {
               {/* Edition */}
               <SummaryCard>
                 <SummaryLabel>Edition</SummaryLabel>
-                <p className="text-lg font-bold text-amber-400 font-heading text-glow-sm">
+                <p className="text-lg font-bold text-white font-heading text-glow-sm">
                   {edition === "5e" ? "5th Edition (2014)" : "5.5e Revised (2024)"}
                 </p>
               </SummaryCard>
@@ -281,7 +284,7 @@ export default function FlowchartWizard() {
                   <SummaryLabel>{raceLabel}</SummaryLabel>
                   <SourceBadge source={selectedRace.source} />
                 </div>
-                <p className="text-xl font-bold text-amber-400 font-heading text-glow-sm">
+                <p className="text-xl font-bold text-white font-heading text-glow-sm">
                   {selectedRace.name}
                 </p>
                 <p className="mt-1 text-sm text-gray-300">{selectedRace.synopsis}</p>
@@ -294,15 +297,17 @@ export default function FlowchartWizard() {
                     <span className="text-[10px] font-semibold uppercase text-gray-500">Traits</span>
                     <div className="mt-1 flex flex-wrap gap-1">
                       {selectedRace.traits.map((t) => (
-                        <span key={t} className="rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-300">
-                          {t}
-                        </span>
+                        <Tooltip key={t} text={traitDescriptions[t]}>
+                          <span className="rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-300">
+                            {t}
+                          </span>
+                        </Tooltip>
                       ))}
                     </div>
                   </div>
                 </div>
                 {edition === "5.5e" && selectedRace.changes5_5e && (
-                  <p className="mt-3 rounded bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+                  <p className="mt-3 rounded bg-white/10 px-3 py-2 text-xs text-gray-200">
                     5.5e Change: {selectedRace.changes5_5e}
                   </p>
                 )}
@@ -314,7 +319,7 @@ export default function FlowchartWizard() {
                   <SummaryLabel>Class</SummaryLabel>
                   <SourceBadge source={selectedClass.source} />
                 </div>
-                <p className="text-xl font-bold text-amber-400 font-heading text-glow-sm">
+                <p className="text-xl font-bold text-white font-heading text-glow-sm">
                   {selectedClass.name}
                 </p>
                 <p className="mt-1 text-sm text-gray-300">{selectedClass.synopsis}</p>
@@ -340,7 +345,7 @@ export default function FlowchartWizard() {
                   <SummaryLabel>Subclass</SummaryLabel>
                   <SourceBadge source={selectedSubclass.source} />
                 </div>
-                <p className="text-xl font-bold text-amber-400 font-heading text-glow-sm">
+                <p className="text-xl font-bold text-white font-heading text-glow-sm">
                   {selectedSubclass.name}
                 </p>
                 <p className="mt-1 text-sm text-gray-300">{selectedSubclass.synopsis}</p>
@@ -356,7 +361,7 @@ export default function FlowchartWizard() {
                 <button
                   type="button"
                   onClick={handleStartOver}
-                  className="rounded-xl border-2 border-amber-500/60 bg-transparent px-8 py-3 font-heading font-semibold text-amber-400 transition-all hover:bg-amber-500 hover:text-gray-950 hover:shadow-[0_0_30px_rgba(251,191,36,0.3)]"
+                  className="rounded-xl border-2 border-white/50 bg-transparent px-8 py-3 font-heading font-semibold text-white transition-all hover:bg-white hover:text-gray-950 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                 >
                   Start Over
                 </button>
@@ -392,7 +397,7 @@ function SortDropdown({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as SortMode)}
-        className="rounded-lg border border-indigo-500/30 bg-gray-800/80 px-2 py-1 text-sm text-gray-300 outline-none focus:border-amber-500"
+        className="rounded-lg border border-indigo-500/30 bg-gray-800/80 px-2 py-1 text-sm text-gray-300 outline-none focus:border-white/60"
       >
         <option value="default">Default</option>
         <option value="reddit">Reddit Ranking</option>
@@ -427,7 +432,7 @@ function CompletedStepCard({
             <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
               {label}
             </span>
-            <p className="font-heading font-bold text-amber-400 text-glow-sm">{name}</p>
+            <p className="font-heading font-bold text-white text-glow-sm">{name}</p>
             {detail && <p className="text-xs text-gray-400 mt-0.5">{detail}</p>}
           </div>
         </div>
@@ -436,7 +441,7 @@ function CompletedStepCard({
           <button
             type="button"
             onClick={onEdit}
-            className="rounded-lg border border-gray-700 px-3 py-1 text-xs text-gray-400 transition-colors hover:border-amber-500/50 hover:text-amber-400"
+            className="rounded-lg border border-gray-700 px-3 py-1 text-xs text-gray-400 transition-colors hover:border-white/40 hover:text-white"
           >
             Change
           </button>

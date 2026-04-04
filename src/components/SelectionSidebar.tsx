@@ -54,7 +54,7 @@ export default function SelectionSidebar({
           <h3 className="mb-1 text-sm font-semibold uppercase tracking-wider text-gray-400">
             Your Character
           </h3>
-          <p className="mb-4 text-xs text-amber-400/70">
+          <p className="mb-4 text-xs text-white/70">
             {selections.edition === "5e" ? "5th Edition (2014)" : "5.5e (2024)"}
           </p>
 
@@ -79,13 +79,13 @@ export default function SelectionSidebar({
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
                       type="button"
                       onClick={() => onStepClick(pick.step)}
-                      className="w-full rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-left transition-colors hover:border-amber-500/60 cursor-pointer"
+                      className="w-full rounded-md border border-white/25 bg-white/10 p-3 text-left transition-colors hover:border-white/50 cursor-pointer"
                     >
                       <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
                         {pick.label}
                       </span>
                       <div className="flex items-center justify-between mt-0.5">
-                        <span className="text-sm font-bold text-amber-400">
+                        <span className="text-sm font-bold text-white">
                           {pick.display}
                         </span>
                         {pick.source && <SourceBadge source={pick.source} />}
@@ -126,7 +126,7 @@ export default function SelectionSidebar({
                     key={pick.step}
                     type="button"
                     onClick={() => onStepClick(pick.step)}
-                    className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 hover:border-amber-500/60 transition-colors"
+                    className="shrink-0 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white hover:border-white/50 transition-colors"
                   >
                     {pick.label}: {pick.display}
                   </button>

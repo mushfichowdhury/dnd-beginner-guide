@@ -8,20 +8,21 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans, "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
-  --font-heading: var(--font-heading, "Cinzel", "Palatino Linotype", Georgia, serif);
+  --font-sans: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  --font-heading: var(--font-heading, "Space Grotesk", system-ui, sans-serif);
 
   /* Celestial palette */
   --color-celestial-indigo: #6366f1;
   --color-celestial-purple: #a78bfa;
   --color-celestial-blue: #60a5fa;
-  --color-celestial-gold: #fbbf24;
+  --color-celestial-gold: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .font-heading {
@@ -31,15 +32,23 @@ body {
 /* Celestial text glow */
 .text-glow {
   text-shadow:
-    0 0 30px rgba(251, 191, 36, 0.35),
-    0 0 60px rgba(251, 191, 36, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.8);
+    0 0 30px rgba(255, 255, 255, 0.25),
+    0 0 60px rgba(255, 255, 255, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.9),
+    0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .text-glow-sm {
   text-shadow:
-    0 0 15px rgba(251, 191, 36, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.7);
+    0 0 15px rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.text-3d {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.7),
+    0 3px 6px rgba(0, 0, 0, 0.35);
 }
 
 /* Drop shadow for cards */
