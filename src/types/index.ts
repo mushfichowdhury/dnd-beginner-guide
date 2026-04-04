@@ -13,14 +13,25 @@ export interface Race {
   source: Source;
 }
 
+export type HealthTier = "High" | "Above Average" | "Average" | "Low";
+
+export interface ClassProficiencies {
+  armor: string[];
+  weapons: string[];
+  savingThrows: string[];
+  skills: { choose: number; from: string[] };
+}
+
 export interface DndClass {
   id: string;
   name: string;
   synopsis: string;
   hint: string;
   hitDie: string;
+  healthTier: HealthTier;
   primaryAbility: string;
   role: string;
+  proficiencies: ClassProficiencies;
   source: Source;
 }
 

@@ -2,10 +2,17 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Source, SubclassFeature } from "@/types";
+import { Source, SubclassFeature, HealthTier, ClassProficiencies } from "@/types";
 import { Tier } from "@/data/rankings";
 import SourceBadge from "./SourceBadge";
 import TierBadge from "./TierBadge";
+
+const healthTierStyles: Record<HealthTier, string> = {
+  "High": "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+  "Above Average": "bg-blue-500/20 text-blue-300 border-blue-500/30",
+  "Average": "bg-amber-500/20 text-amber-300 border-amber-500/30",
+  "Low": "bg-red-500/20 text-red-300 border-red-500/30",
+};
 
 interface SelectionCardProps {
   title: string;
@@ -18,6 +25,8 @@ interface SelectionCardProps {
   extraNote?: string;
   tier?: Tier;
   features?: SubclassFeature[];
+  healthTier?: HealthTier;
+  proficiencies?: ClassProficiencies;
 }
 
 export default function SelectionCard({
@@ -31,6 +40,8 @@ export default function SelectionCard({
   extraNote,
   tier,
   features,
+  healthTier,
+  proficiencies,
 }: SelectionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -47,14 +58,14 @@ export default function SelectionCard({
           onClick();
         }
       }}
-      className={`w-full cursor-pointer rounded-lg border p-4 text-left transition-colors ${
+      className={`card-celestial w-full cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 ${
         selected
-          ? "ring-2 ring-amber-500 bg-gray-800 border-amber-500"
-          : "border-gray-700 bg-gray-900 hover:border-amber-500/50"
+          ? "ring-2 ring-amber-400/80 bg-gray-800/90 border-amber-500/60"
+          : "border-indigo-500/20 bg-gray-900/80 hover:border-amber-500/40 hover:bg-gray-900/95"
       }`}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
-        <h3 className="min-w-0 truncate text-lg font-semibold text-amber-400">{title}</h3>
+        <h3 className="min-w-0 truncate text-lg font-semibold text-amber-400 font-heading text-glow-sm">{title}</h3>
         <div className="flex shrink-0 items-center gap-1.5">
           {tier && <TierBadge tier={tier} />}
           <SourceBadge source={source} />
@@ -67,18 +78,78 @@ export default function SelectionCard({
         </svg>
         {hint}
       </p>
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="inline-flex items-center justify-center rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-400"
-            >
-              {tag}
+
+      {/* Health tier + role tags */}
+      <div className="flex flex-wrap gap-1.5">
+        {healthTier && (
+          <span
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${healthTierStyles[healthTier]}`}
+          >
+            {healthTier === "Above Average" ? "Above Avg" : healthTier} Health
+          </span>
+        )}
+        {tags && tags.map((tag) => (
+          <span
+            key={tag}
+            className="inline-flex items-center justify-center rounded-full bg-gray-800/80 border border-gray-700/50 px-2 py-0.5 text-xs text-gray-400"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      {/* Proficiency chips */}
+      {proficiencies && (
+        <div className="mt-3 space-y-2 border-t border-gray-700/50 pt-3">
+          {proficiencies.armor.length > 0 && (
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">Armor</span>
+              <div className="mt-0.5 flex flex-wrap gap-1">
+                {proficiencies.armor.map((a) => (
+                  <span key={a} className="rounded-md bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 text-[10px] text-indigo-300">
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {proficiencies.weapons.length > 0 && (
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">Weapons</span>
+              <div className="mt-0.5 flex flex-wrap gap-1">
+                {proficiencies.weapons.map((w) => (
+                  <span key={w} className="rounded-md bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 text-[10px] text-purple-300">
+                    {w}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">Saving Throws</span>
+            <div className="mt-0.5 flex flex-wrap gap-1">
+              {proficiencies.savingThrows.map((s) => (
+                <span key={s} className="rounded-md bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 text-[10px] text-amber-300">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+              Skills (choose {proficiencies.skills.choose})
             </span>
-          ))}
+            <div className="mt-0.5 flex flex-wrap gap-1">
+              {proficiencies.skills.from.map((s) => (
+                <span key={s} className="rounded-md bg-gray-700/50 border border-gray-600/30 px-1.5 py-0.5 text-[10px] text-gray-400">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       )}
+
       {extraNote && (
         <p className="mt-2 rounded bg-amber-500/10 px-2 py-1.5 text-xs text-amber-300">
           5.5e: {extraNote}

@@ -8,8 +8,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-heading: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --font-sans: var(--font-sans, "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --font-heading: var(--font-heading, "Cinzel", "Palatino Linotype", Georgia, serif);
+
+  /* Celestial palette */
+  --color-celestial-indigo: #6366f1;
+  --color-celestial-purple: #a78bfa;
+  --color-celestial-blue: #60a5fa;
+  --color-celestial-gold: #fbbf24;
 }
 
 body {
@@ -22,17 +28,39 @@ body {
   font-family: var(--font-heading);
 }
 
+/* Celestial text glow */
+.text-glow {
+  text-shadow:
+    0 0 30px rgba(251, 191, 36, 0.35),
+    0 0 60px rgba(251, 191, 36, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.text-glow-sm {
+  text-shadow:
+    0 0 15px rgba(251, 191, 36, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Drop shadow for cards */
+.card-celestial {
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.1),
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(99, 102, 241, 0.04);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: #0a0e1a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #4b5563;
+  background: #2d2b55;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: #4a4580;
 }

@@ -11,7 +11,25 @@ type Particle = {
   opacity: number;
   baseOpacity: number;
   glowMultiplier: number;
+  color: string;
 };
+
+const STAR_COLORS = [
+  { color: "#fbbf24", weight: 0.50 }, // amber/gold
+  { color: "#60a5fa", weight: 0.25 }, // cool blue
+  { color: "#a78bfa", weight: 0.15 }, // soft purple
+  { color: "#f9fafb", weight: 0.10 }, // white
+];
+
+function pickStarColor(): string {
+  const r = Math.random();
+  let cumulative = 0;
+  for (const star of STAR_COLORS) {
+    cumulative += star.weight;
+    if (r <= cumulative) return star.color;
+  }
+  return STAR_COLORS[0].color;
+}
 
 interface FloatingParticlesBackgroundProps {
   className?: string;
@@ -21,18 +39,16 @@ interface FloatingParticlesBackgroundProps {
   glowIntensity?: number;
   movementSpeed?: number;
   mouseInfluence?: number;
-  particleColor?: string;
 }
 
 export default function FloatingParticlesBackground({
   className,
-  particleCount = 155,
+  particleCount = 180,
   particleSize = 2.8,
   particleOpacity = 0.82,
   glowIntensity = 22,
-  movementSpeed = 0.55,
+  movementSpeed = 0.45,
   mouseInfluence = 300,
-  particleColor = "#fbbf24",
 }: FloatingParticlesBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -61,10 +77,11 @@ export default function FloatingParticlesBackground({
         y: randomCoordinate(height),
         vx: (Math.random() - 0.5) * movementSpeed,
         vy: (Math.random() - 0.5) * movementSpeed,
-        size: 0.8 + Math.pow(Math.random(), 0.65) * particleSize,
+        size: 0.6 + Math.pow(Math.random(), 0.65) * particleSize,
         opacity: particleOpacity,
         baseOpacity: particleOpacity,
         glowMultiplier: 1,
+        color: pickStarColor(),
       }));
     };
 
@@ -149,8 +166,8 @@ export default function FloatingParticlesBackground({
       particlesRef.current.forEach((particle) => {
         context.save();
         context.globalAlpha = particle.opacity;
-        context.fillStyle = particleColor;
-        context.shadowColor = particleColor;
+        context.fillStyle = particle.color;
+        context.shadowColor = particle.color;
         context.shadowBlur = glowIntensity * particle.glowMultiplier;
         context.beginPath();
         context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -205,7 +222,6 @@ export default function FloatingParticlesBackground({
     glowIntensity,
     mouseInfluence,
     movementSpeed,
-    particleColor,
     particleCount,
     particleOpacity,
     particleSize,
