@@ -65,7 +65,7 @@ export default function SelectionCard({
           onClick();
         }
       }}
-      className={`card-celestial flex h-full w-full flex-col cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 ${
+      className={`card-celestial flex h-full w-full flex-col cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 overflow-y-auto ${
         selected
           ? "ring-2 ring-white/70 bg-gray-800/90 border-white/50"
           : "border-indigo-500/20 bg-gray-900/80 hover:border-white/30 hover:bg-gray-900/95"
@@ -97,11 +97,11 @@ export default function SelectionCard({
       </p>
 
       {/* Health tier + role tags */}
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1">
         {healthTier && (
           <Tooltip text={hitDie ? `Hit Die: ${hitDie}` : undefined}>
             <span
-              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${healthTierStyles[healthTier]}`}
+              className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-semibold ${healthTierStyles[healthTier]}`}
             >
               {healthTier === "Above Average" ? "Above Avg" : healthTier} Health
             </span>
@@ -110,7 +110,7 @@ export default function SelectionCard({
         {tags && tags.map((tag) => (
           <Tooltip key={tag} text={traitDescriptions[tag]}>
             <span
-              className="inline-flex items-center justify-center rounded-full bg-gray-800/80 border border-gray-700/50 px-2 py-0.5 text-xs text-gray-400"
+              className="inline-flex items-center rounded-full bg-gray-800/80 border border-gray-700/50 px-1.5 py-0.5 text-[11px] text-gray-400"
             >
               {tag}
             </span>
@@ -182,25 +182,37 @@ export default function SelectionCard({
           5.5e: {extraNote}
         </p>
       )}
-      {features && features.length > 0 && onShowDetails && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onShowDetails();
-          }}
-          className="mt-3 flex w-full items-center justify-center gap-1 text-xs text-white/60 transition-colors hover:text-white"
-        >
-          <span>Show abilities by level</span>
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-          >
-            <path d="M6 3a1 1 0 0 0-.707 1.707L9.586 9l-4.293 4.293a1 1 0 1 0 1.414 1.414l5-5a1 1 0 0 0 0-1.414l-5-5A1 1 0 0 0 6 3z" />
-          </svg>
-        </button>
+      {features && features.length > 0 && (
+        <div className="mt-3 border-t border-gray-700/50 pt-3">
+          <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+            Abilities by Level
+          </p>
+          <div className="space-y-1">
+            {features.map((f) => (
+              <div key={f.level} className="flex items-center gap-1.5">
+                <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                  Lv {f.level}
+                </span>
+                <span className="truncate text-[11px] text-gray-300">{f.name}</span>
+              </div>
+            ))}
+          </div>
+          {onShowDetails && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onShowDetails();
+              }}
+              className="mt-2 flex w-full items-center justify-center gap-1 text-[11px] text-white/50 transition-colors hover:text-white"
+            >
+              <span>Full descriptions</span>
+              <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M6 3a1 1 0 0 0-.707 1.707L9.586 9l-4.293 4.293a1 1 0 1 0 1.414 1.414l5-5a1 1 0 0 0 0-1.414l-5-5A1 1 0 0 0 6 3z" />
+              </svg>
+            </button>
+          )}
+        </div>
       )}
       </div>
     </motion.div>

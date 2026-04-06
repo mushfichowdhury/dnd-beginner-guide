@@ -73,3 +73,14 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #4a4580;
 }
+
+/* Lock viewport on mobile to prevent body scroll in browser */
+@media (max-width: 767px) {
+  html,
+  body {
+    height: 100dvh;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+}
