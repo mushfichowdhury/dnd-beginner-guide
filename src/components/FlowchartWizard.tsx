@@ -24,7 +24,7 @@ const tierOrder: Record<Tier, number> = { S: 0, A: 1, B: 2, C: 3 };
 const stepOrder: Step[] = ["race", "class", "subclass", "summary"];
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -20 },
 };
@@ -67,7 +67,7 @@ export default function FlowchartWizard() {
   const scrollToRef = (ref: React.RefObject<HTMLDivElement | null>) => {
     setTimeout(() => {
       ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 150);
+    }, 500);
   };
 
   const handleEditionChange = (e: Edition) => {
@@ -158,7 +158,7 @@ export default function FlowchartWizard() {
       {/* ─── RACE / SPECIES STEP ─── */}
       <section className="w-full">
         {currentStep === "race" ? (
-          <motion.div {...fadeInUp} transition={{ duration: 0.4 }}>
+          <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}>
             <SectionHeading>Choose Your {raceLabel}</SectionHeading>
             <p className="mb-6 text-center text-gray-400">
               Your {raceLabel.toLowerCase()} determines your innate abilities, traits, and appearance.
@@ -200,10 +200,10 @@ export default function FlowchartWizard() {
           <StarConnector />
           <section ref={classRef} className="w-full scroll-mt-8">
             {currentStep === "class" ? (
-              <motion.div {...fadeInUp} transition={{ duration: 0.4 }}>
+              <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}>
                 <SectionHeading>Choose Your Class</SectionHeading>
                 <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-center sm:text-left text-gray-400">
+                  <p className="text-gray-400">
                     Your class defines your abilities, playstyle, and role in the party.
                   </p>
                   <SortDropdown value={classSortMode} onChange={setClassSortMode} />
@@ -246,10 +246,10 @@ export default function FlowchartWizard() {
           <StarConnector />
           <section ref={subclassRef} className="w-full scroll-mt-8">
             {currentStep === "subclass" ? (
-              <motion.div {...fadeInUp} transition={{ duration: 0.4 }}>
+              <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}>
                 <SectionHeading>Choose Your Subclass</SectionHeading>
                 <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-center sm:text-left text-gray-400">
+                  <p className="text-gray-400">
                     Your subclass specializes your{" "}
                     <span className="font-semibold text-white">
                       {selectedClass?.name ?? "class"}
@@ -629,7 +629,7 @@ export default function FlowchartWizard() {
                 <p className="text-xl font-bold text-white font-heading text-glow-sm">
                   {selectedRace.name}
                   {selectedVariant && (
-                    <span className="ml-2 text-base font-medium text-indigo-300">
+                    <span className="mt-0.5 block text-base font-medium text-indigo-300 sm:mt-0 sm:inline sm:ml-2">
                       ({selectedVariant.name}{selectedSubVariant ? ` — ${selectedSubVariant.name}` : ""})
                     </span>
                   )}
@@ -755,7 +755,7 @@ export default function FlowchartWizard() {
               {/* Start Over */}
               <motion.div
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
                 className="flex justify-center pt-6 pb-12"
               >
                 <button
@@ -778,7 +778,7 @@ export default function FlowchartWizard() {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mb-2 text-center text-2xl font-bold text-gray-100 font-heading text-glow-sm">
+    <h2 className="mb-3 text-center text-2xl font-bold text-gray-100 font-heading text-glow-sm">
       {children}
     </h2>
   );
@@ -832,7 +832,7 @@ function CompletedStepCard({
             <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
               {label}
             </span>
-            <p className="font-heading font-bold text-white text-glow-sm">{name}</p>
+            <p className="truncate font-heading font-bold text-white text-glow-sm">{name}</p>
             {detail && <p className="text-xs text-gray-400 mt-0.5">{detail}</p>}
           </div>
         </div>
@@ -855,7 +855,7 @@ function SummaryCard({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
       className="card-celestial rounded-xl border border-indigo-500/20 bg-gray-900/80 p-5"
     >
       {children}

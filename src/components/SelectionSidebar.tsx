@@ -126,9 +126,10 @@ export default function SelectionSidebar({
                     key={pick.step}
                     type="button"
                     onClick={() => onStepClick(pick.step)}
-                    className="shrink-0 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white hover:border-white/50 transition-colors"
+                    className="flex shrink-0 items-center gap-1 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white hover:border-white/50 transition-colors"
                   >
-                    {pick.label}: {pick.display}
+                    <span className="shrink-0">{pick.label}:</span>
+                    <span className="max-w-[120px] truncate">{pick.display}</span>
                   </button>
                 )
             )}

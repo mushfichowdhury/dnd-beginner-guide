@@ -68,7 +68,7 @@ export default function StepIndicator({
             >
               <span>{step.label}</span>
               {isCompleted && selectedName && (
-                <span className="ml-1 text-xs opacity-80">({selectedName})</span>
+                <span className="ml-1 max-w-[7rem] truncate text-xs opacity-80">({selectedName})</span>
               )}
             </button>
           </div>

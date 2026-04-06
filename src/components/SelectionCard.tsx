@@ -63,7 +63,7 @@ export default function SelectionCard({
           onClick();
         }
       }}
-      className={`card-celestial w-full cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 ${
+      className={`card-celestial flex h-full w-full flex-col cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 ${
         selected
           ? "ring-2 ring-white/70 bg-gray-800/90 border-white/50"
           : "border-indigo-500/20 bg-gray-900/80 hover:border-white/30 hover:bg-gray-900/95"
@@ -160,6 +160,7 @@ export default function SelectionCard({
         </div>
       )}
 
+      <div className="mt-auto">
       {extraNote && (
         <p className="mt-2 rounded bg-white/10 px-2 py-1.5 text-xs text-gray-200">
           5.5e: {extraNote}
@@ -185,6 +186,7 @@ export default function SelectionCard({
           </svg>
         </button>
       )}
+      </div>
     </motion.div>
   );
 }

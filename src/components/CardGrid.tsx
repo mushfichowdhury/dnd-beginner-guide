@@ -26,7 +26,7 @@ export default function CardGrid({ children }: { children: ReactNode }) {
       animate="show"
     >
       {Children.map(children, (child) => (
-        <motion.div variants={itemVariants}>{child}</motion.div>
+        <motion.div variants={itemVariants} className="h-full">{child}</motion.div>
       ))}
     </motion.div>
   );
