@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Edition } from "@/types";
+import FantasyNameGenerator from "./FantasyNameGenerator";
 import { classRankings, subclassRankings } from "@/data/rankings";
 import { CharacterWizardReturn } from "@/hooks/useCharacterWizard";
 import CardGrid from "./CardGrid";
@@ -463,6 +464,9 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
                     </div>
                   )}
                 </SummaryCard>
+
+                {/* Fantasy Name Generator */}
+                <FantasyNameGenerator raceId={selectedRace.id} />
 
                 <div className="flex justify-center pt-4 pb-4">
                   <button

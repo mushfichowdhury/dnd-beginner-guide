@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Race, RaceVariant, RaceSubVariant } from "@/types";
+import FantasyNameGenerator from "./FantasyNameGenerator";
 import { classRankings, subclassRankings } from "@/data/rankings";
 import { CharacterWizardReturn, stepOrder } from "@/hooks/useCharacterWizard";
 import EditionToggle from "./EditionToggle";
@@ -675,6 +676,9 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
                   </div>
                 )}
               </SummaryCard>
+
+              {/* Fantasy Name Generator */}
+              <FantasyNameGenerator raceId={selectedRace.id} />
 
               {/* Start Over */}
               <motion.div
