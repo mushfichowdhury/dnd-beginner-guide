@@ -74,7 +74,14 @@ export default function MobileCarousel({ children }: { children: ReactNode }) {
   if (total === 0) return null;
 
   return (
-    <div onKeyDown={handleKeyDown} tabIndex={-1} className="outline-none">
+    <div
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="region"
+      aria-label="Card carousel"
+      aria-roledescription="carousel"
+      className="outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/60 focus-visible:rounded-sm"
+    >
       {/* Carousel viewport */}
       <div ref={containerRef} className="overflow-hidden">
         <motion.div
@@ -122,7 +129,11 @@ export default function MobileCarousel({ children }: { children: ReactNode }) {
           </svg>
         </button>
 
-        <span className="min-w-[4rem] text-center text-sm text-gray-400">
+        <span
+          aria-live="polite"
+          aria-atomic="true"
+          className="min-w-[4rem] text-center text-sm text-gray-400"
+        >
           {activeIndex + 1} of {total}
         </span>
 
