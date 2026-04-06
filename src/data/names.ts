@@ -100,7 +100,7 @@ export const raceNames: Record<string, RaceNameData> = {
     surnames: ["Trapmaster", "Scalespike", "Gemhoarder", "Darkdigger", "Tunnelscout", "Shinyfinder", "Dragonkin", "Pitdelver", "Oreseeker", "Torchsnuffer", "Copperbite", "Goldnose", "Spikejaw", "Sharpclaw", "Tinbender", "Rockchewer"],
     titles: ["the Trapmaker", "the Cunning", "the Bold", "the Scaly", "the Loyal", "the Tunnel King", "the Dragon-Blessed", "the Digger", "the Inventive", "the Fierce", "the Tiny Terror", "the Mighty"],
   },
-  "yuan-ti": {
+  "yuan-ti-pureblood": {
     firstNames: ["Asutali", "Dehstali", "Eshtahi", "Hassith", "Isstoth", "Kethath", "Litashi", "Meshtil", "Nesthah", "Ossith", "Phistal", "Quistal", "Reshtil", "Sisseth", "Thessil", "Usthali", "Vishtal", "Xistal", "Yesthil", "Zisthah"],
     surnames: ["Serpentcoil", "Venomfang", "Nightscale", "Shadowserpent", "Duskcoil", "Ashvenom", "Silentfang", "Darktongue", "Emberviper", "Coldscale", "Soulcoil", "Dreamvenom", "Mindserpent", "Fleshweaver", "Dreadscale", "Boneslither"],
     titles: ["the Serpentine", "the Cold-Blooded", "the Deceiver", "the Venomous", "the Whisperer", "the Scaled", "the Insidious", "the Mindful", "the Patient", "the Pureblooded", "the Coiled", "the Malevolent"],
