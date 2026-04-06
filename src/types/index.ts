@@ -1,10 +1,26 @@
 export type Edition = "5e" | "5.5e";
 export type Source = "PHB" | "Tasha's Cauldron" | "Xanathar's Guide" | "Volo's Guide" | "Mordenkainen's";
 
+export interface VariantSpell {
+  level: number;
+  name: string;
+  note?: string;
+}
+
+export interface RaceSubVariant {
+  id: string;
+  name: string;
+  description: string;
+  damageType?: string;
+}
+
 export interface RaceVariant {
   id: string;
   name: string;
   description: string;
+  spells?: VariantSpell[];
+  mechanicalSummary?: string;
+  subVariants?: RaceSubVariant[];
 }
 
 export interface Race {
@@ -18,6 +34,7 @@ export interface Race {
   changes5_5e?: string;
   source: Source;
   variants?: RaceVariant[];
+  variantEditions?: Edition[];
 }
 
 export type HealthTier = "High" | "Above Average" | "Average" | "Low";

@@ -29,6 +29,13 @@ export const traitDescriptions: Record<string, string> = {
   // Tiefling
   "Hellish Resistance": "You have resistance to fire damage.",
   "Infernal Legacy": "You know the Thaumaturgy cantrip. At 3rd level you can cast Hellish Rebuke once per long rest.",
+  "Fiendish Legacy": "Choose Abyssal, Chthonic, or Infernal legacy. Each grants a cantrip at level 1 and additional spells at levels 3 and 5, cast once per long rest.",
+
+  // Gnome (5.5e)
+  "Gnomish Lineage": "Choose Forest Gnome or Rock Gnome lineage. Each grants unique cantrips and abilities reflecting your gnomish heritage.",
+
+  // Aasimar (5.5e)
+  "Celestial Revelation": "At 3rd level, choose a celestial transformation: Heavenly Wings (flight), Inner Radiance (AoE radiant damage), or Necrotic Shroud (frighten + necrotic damage). Usable once per long rest as a bonus action for 1 minute.",
 
   // Dragonborn
   "Draconic Ancestry": "Choose a dragon type. This determines your breath weapon's damage type and your damage resistance.",

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Edition, Step, Race, DndClass, Subclass, RaceVariant } from "@/types";
+import { Edition, Step, Race, DndClass, Subclass, RaceVariant, RaceSubVariant } from "@/types";
 import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import { subclasses } from "@/data/subclasses";
@@ -46,11 +46,15 @@ export default function FlowchartWizard() {
   const [classSortMode, setClassSortMode] = useState<SortMode>("default");
   const [subclassSortMode, setSubclassSortMode] = useState<SortMode>("default");
 
+  const [selectedSubVariant, setSelectedSubVariant] = useState<RaceSubVariant | null>(null);
+
   // Modal states
   const [detailRace, setDetailRace] = useState<Race | null>(null);
   const [detailSubclass, setDetailSubclass] = useState<Subclass | null>(null);
   const [showVariantPicker, setShowVariantPicker] = useState(false);
   const [pendingVariant, setPendingVariant] = useState<RaceVariant | null>(null);
+  const [pendingSubVariant, setPendingSubVariant] = useState<RaceSubVariant | null>(null);
+  const [subVariantStep, setSubVariantStep] = useState(false);
 
   const classRef = useRef<HTMLDivElement>(null);
   const subclassRef = useRef<HTMLDivElement>(null);
@@ -70,14 +74,16 @@ export default function FlowchartWizard() {
     setEdition(e);
     setSelectedRace(null);
     setSelectedVariant(null);
+    setSelectedSubVariant(null);
     setSelectedClass(null);
     setSelectedSubclass(null);
     setCurrentStep("race");
   };
 
-  const handleRaceSelect = (race: Race, variant?: RaceVariant | null) => {
+  const handleRaceSelect = (race: Race, variant?: RaceVariant | null, subVariant?: RaceSubVariant | null) => {
     setSelectedRace(race);
     setSelectedVariant(variant ?? null);
+    setSelectedSubVariant(subVariant ?? null);
     setSelectedClass(null);
     setSelectedSubclass(null);
     setCurrentStep("class");
@@ -100,6 +106,7 @@ export default function FlowchartWizard() {
   const handleStartOver = () => {
     setSelectedRace(null);
     setSelectedVariant(null);
+    setSelectedSubVariant(null);
     setSelectedClass(null);
     setSelectedSubclass(null);
     setCurrentStep("race");
@@ -110,6 +117,7 @@ export default function FlowchartWizard() {
     if (step === "race") {
       setSelectedRace(null);
       setSelectedVariant(null);
+      setSelectedSubVariant(null);
       setSelectedClass(null);
       setSelectedSubclass(null);
     } else if (step === "class") {
@@ -119,6 +127,12 @@ export default function FlowchartWizard() {
       setSelectedSubclass(null);
     }
     setCurrentStep(step);
+  };
+
+  const raceHasVariants = (race: Race) => {
+    if (!race.variants || race.variants.length === 0) return false;
+    if (race.variantEditions && !race.variantEditions.includes(edition)) return false;
+    return true;
   };
 
   const filteredRaces = races.filter((r) => r.editions.includes(edition));
@@ -173,7 +187,7 @@ export default function FlowchartWizard() {
         ) : selectedRace ? (
           <CompletedStepCard
             label={raceLabel}
-            name={selectedVariant ? `${selectedRace.name} (${selectedVariant.name})` : selectedRace.name}
+            name={selectedVariant ? `${selectedRace.name} (${selectedVariant.name}${selectedSubVariant ? ` — ${selectedSubVariant.name}` : ""})` : selectedRace.name}
             source={selectedRace.source}
             onEdit={() => handleEditStep("race")}
           />
@@ -253,7 +267,7 @@ export default function FlowchartWizard() {
                       hint={sub.hint}
                       source={sub.source}
                       selected={selectedSubclass?.id === sub.id}
-                      onClick={() => handleSubclassSelect(sub)}
+                      onClick={() => setDetailSubclass(sub)}
                       tier={subclassSortMode === "reddit" ? subclassRankings[sub.id] : undefined}
                       features={sub.features}
                       onShowDetails={() => setDetailSubclass(sub)}
@@ -334,9 +348,11 @@ export default function FlowchartWizard() {
               <button
                 type="button"
                 onClick={() => {
-                  if (detailRace.variants && detailRace.variants.length > 0) {
+                  if (raceHasVariants(detailRace)) {
                     setShowVariantPicker(true);
                     setPendingVariant(null);
+                    setPendingSubVariant(null);
+                    setSubVariantStep(false);
                   } else {
                     handleRaceSelect(detailRace);
                     setDetailRace(null);
@@ -344,7 +360,7 @@ export default function FlowchartWizard() {
                 }}
                 className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
               >
-                {detailRace.variants && detailRace.variants.length > 0
+                {raceHasVariants(detailRace)
                   ? "Choose Variant"
                   : `Select this ${raceLabel}`}
               </button>
@@ -356,70 +372,167 @@ export default function FlowchartWizard() {
       {/* ─── VARIANT PICKER MODAL ─── */}
       <Modal
         isOpen={!!detailRace && showVariantPicker}
-        onClose={() => { setShowVariantPicker(false); setPendingVariant(null); }}
+        onClose={() => { setShowVariantPicker(false); setPendingVariant(null); setPendingSubVariant(null); setSubVariantStep(false); }}
       >
         {detailRace && detailRace.variants && (
           <div>
+            {/* Back button */}
             <button
               type="button"
-              onClick={() => { setShowVariantPicker(false); setPendingVariant(null); }}
+              onClick={() => {
+                if (subVariantStep) {
+                  setSubVariantStep(false);
+                  setPendingSubVariant(null);
+                } else {
+                  setShowVariantPicker(false);
+                  setPendingVariant(null);
+                }
+              }}
               className="mb-4 flex items-center gap-1 text-sm text-gray-400 transition-colors hover:text-white"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M10 3a1 1 0 0 1 .707 1.707L6.414 9l4.293 4.293a1 1 0 1 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5A1 1 0 0 1 10 3z" />
               </svg>
-              Back to {detailRace.name}
+              {subVariantStep ? `Back to ${detailRace.name} variants` : `Back to ${detailRace.name}`}
             </button>
 
-            <h2 className="mb-2 font-heading text-xl font-bold text-white text-glow-sm">
-              Choose your {detailRace.name} variant
-            </h2>
-            <p className="mb-5 text-sm text-gray-400">
-              Pick the ancestry or element that defines your character.
-            </p>
+            {!subVariantStep ? (
+              <>
+                <h2 className="mb-2 font-heading text-xl font-bold text-white text-glow-sm">
+                  Choose your {detailRace.name} variant
+                </h2>
+                <p className="mb-5 text-sm text-gray-400">
+                  Pick the ancestry or lineage that defines your character.
+                </p>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              {detailRace.variants.map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => setPendingVariant(v)}
-                  className={`rounded-xl border p-4 text-left transition-all ${
-                    pendingVariant?.id === v.id
-                      ? "ring-2 ring-indigo-400 border-indigo-400/50 bg-indigo-500/10"
-                      : "border-gray-700/50 bg-gray-800/50 hover:border-white/30"
-                  }`}
-                >
-                  <h3 className="mb-1 font-heading text-sm font-bold text-white">{v.name}</h3>
-                  <p className="text-xs leading-relaxed text-gray-400">{v.description}</p>
-                </button>
-              ))}
-            </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {detailRace.variants.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => setPendingVariant(v)}
+                      className={`rounded-xl border p-4 text-left transition-all ${
+                        pendingVariant?.id === v.id
+                          ? "ring-2 ring-indigo-400 border-indigo-400/50 bg-indigo-500/10"
+                          : "border-gray-700/50 bg-gray-800/50 hover:border-white/30"
+                      }`}
+                    >
+                      <h3 className="mb-1 font-heading text-sm font-bold text-white">{v.name}</h3>
+                      {v.mechanicalSummary && (
+                        <p className="mb-1 text-[11px] font-medium text-indigo-300">{v.mechanicalSummary}</p>
+                      )}
+                      <p className="text-xs leading-relaxed text-gray-400">{v.description}</p>
+                      {v.spells && v.spells.length > 0 && (
+                        <div className="mt-2 space-y-1 border-t border-gray-700/50 pt-2">
+                          {v.spells.map((s) => (
+                            <div key={`${s.level}-${s.name}`} className="flex items-center gap-2">
+                              <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                                Lv {s.level}
+                              </span>
+                              <span className="text-[11px] text-gray-300">{s.name}</span>
+                              {s.note && <span className="text-[10px] text-gray-500">({s.note})</span>}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="mt-5 flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => { setShowVariantPicker(false); setPendingVariant(null); }}
-                className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-400 transition-colors hover:border-white/40 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={!pendingVariant}
-                onClick={() => {
-                  if (pendingVariant && detailRace) {
-                    handleRaceSelect(detailRace, pendingVariant);
-                    setDetailRace(null);
-                    setShowVariantPicker(false);
-                    setPendingVariant(null);
-                  }
-                }}
-                className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Confirm
-              </button>
-            </div>
+                <div className="mt-5 flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => { setShowVariantPicker(false); setPendingVariant(null); }}
+                    className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-400 transition-colors hover:border-white/40 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!pendingVariant}
+                    onClick={() => {
+                      if (pendingVariant && detailRace) {
+                        if (pendingVariant.subVariants && pendingVariant.subVariants.length > 0) {
+                          setSubVariantStep(true);
+                          setPendingSubVariant(null);
+                        } else {
+                          handleRaceSelect(detailRace, pendingVariant);
+                          setDetailRace(null);
+                          setShowVariantPicker(false);
+                          setPendingVariant(null);
+                        }
+                      }
+                    }}
+                    className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {pendingVariant?.subVariants && pendingVariant.subVariants.length > 0
+                      ? "Next \u2192"
+                      : "Confirm"}
+                  </button>
+                </div>
+              </>
+            ) : pendingVariant?.subVariants ? (
+              <>
+                <h2 className="mb-2 font-heading text-xl font-bold text-white text-glow-sm">
+                  Choose your {pendingVariant.name} dragon
+                </h2>
+                <p className="mb-5 text-sm text-gray-400">
+                  Select a specific dragon type to determine your damage type and breath weapon.
+                </p>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {pendingVariant.subVariants.map((sv) => (
+                    <button
+                      key={sv.id}
+                      type="button"
+                      onClick={() => setPendingSubVariant(sv)}
+                      className={`rounded-xl border p-4 text-left transition-all ${
+                        pendingSubVariant?.id === sv.id
+                          ? "ring-2 ring-indigo-400 border-indigo-400/50 bg-indigo-500/10"
+                          : "border-gray-700/50 bg-gray-800/50 hover:border-white/30"
+                      }`}
+                    >
+                      <div className="mb-1 flex items-center gap-2">
+                        <h3 className="font-heading text-sm font-bold text-white">{sv.name}</h3>
+                        {sv.damageType && (
+                          <span className="rounded bg-indigo-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-300">
+                            {sv.damageType}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs leading-relaxed text-gray-400">{sv.description}</p>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-5 flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => { setSubVariantStep(false); setPendingSubVariant(null); }}
+                    className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-400 transition-colors hover:border-white/40 hover:text-white"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!pendingSubVariant}
+                    onClick={() => {
+                      if (pendingVariant && pendingSubVariant && detailRace) {
+                        handleRaceSelect(detailRace, pendingVariant, pendingSubVariant);
+                        setDetailRace(null);
+                        setShowVariantPicker(false);
+                        setPendingVariant(null);
+                        setPendingSubVariant(null);
+                        setSubVariantStep(false);
+                      }
+                    }}
+                    className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </>
+            ) : null}
           </div>
         )}
       </Modal>
@@ -516,14 +629,44 @@ export default function FlowchartWizard() {
                 <p className="text-xl font-bold text-white font-heading text-glow-sm">
                   {selectedRace.name}
                   {selectedVariant && (
-                    <span className="ml-2 text-base font-medium text-indigo-300">({selectedVariant.name})</span>
+                    <span className="ml-2 text-base font-medium text-indigo-300">
+                      ({selectedVariant.name}{selectedSubVariant ? ` — ${selectedSubVariant.name}` : ""})
+                    </span>
                   )}
                 </p>
                 <p className="mt-1 text-sm text-gray-300">{selectedRace.synopsis}</p>
                 {selectedVariant && (
-                  <p className="mt-2 rounded bg-indigo-500/10 border border-indigo-500/20 px-3 py-2 text-xs text-indigo-200">
-                    {selectedVariant.name}: {selectedVariant.description}
-                  </p>
+                  <div className="mt-2 rounded bg-indigo-500/10 border border-indigo-500/20 px-3 py-2">
+                    <p className="text-xs font-semibold text-indigo-200">{selectedVariant.name}</p>
+                    <p className="mt-0.5 text-xs text-indigo-200/80">{selectedVariant.description}</p>
+                    {selectedVariant.spells && selectedVariant.spells.length > 0 && (
+                      <div className="mt-2 space-y-1 border-t border-indigo-500/20 pt-2">
+                        <p className="text-[10px] font-semibold uppercase text-indigo-300/70">Spell Progression</p>
+                        {selectedVariant.spells.map((s) => (
+                          <div key={`${s.level}-${s.name}`} className="flex items-center gap-2">
+                            <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                              Lv {s.level}
+                            </span>
+                            <span className="text-[11px] text-indigo-200">{s.name}</span>
+                            {s.note && <span className="text-[10px] text-indigo-300/60">({s.note})</span>}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {selectedSubVariant && (
+                  <div className="mt-2 rounded bg-purple-500/10 border border-purple-500/20 px-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-semibold text-purple-200">{selectedSubVariant.name}</p>
+                      {selectedSubVariant.damageType && (
+                        <span className="rounded bg-purple-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-purple-300">
+                          {selectedSubVariant.damageType}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-xs text-purple-200/80">{selectedSubVariant.description}</p>
+                  </div>
                 )}
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   <div>
@@ -587,6 +730,26 @@ export default function FlowchartWizard() {
                 </p>
                 <p className="mt-1 text-sm text-gray-300">{selectedSubclass.synopsis}</p>
                 <p className="mt-2 text-sm italic text-gray-400">{selectedSubclass.hint}</p>
+                {selectedSubclass.features && selectedSubclass.features.length > 0 && (
+                  <div className="mt-3 border-t border-gray-700 pt-3">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                      Abilities by Level
+                    </p>
+                    <div className="space-y-2">
+                      {selectedSubclass.features.map((f) => (
+                        <div key={f.level}>
+                          <div className="flex items-center gap-2">
+                            <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                              Lv {f.level}
+                            </span>
+                            <span className="text-xs font-semibold text-gray-200">{f.name}</span>
+                          </div>
+                          <p className="mt-0.5 pl-1 text-xs leading-relaxed text-gray-400">{f.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </SummaryCard>
 
               {/* Start Over */}

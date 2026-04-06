@@ -24,8 +24,47 @@ export const races: Race[] = [
     traits: ["Darkvision", "Keen Senses", "Fey Ancestry", "Trance"],
     editions: ["5e", "5.5e"],
     changes5_5e:
-      "Ability scores tied to background. All elf variants gain associated spells at levels 3 and 5. Drow no longer have Sunlight Sensitivity.",
+      "Ability scores tied to background. Choose a lineage (Drow, High Elf, or Wood Elf) that grants unique spells at levels 1, 3, and 5. Drow no longer have Sunlight Sensitivity.",
     source: "PHB",
+    variantEditions: ["5.5e"],
+    variants: [
+      {
+        id: "drow",
+        name: "Drow",
+        description:
+          "Drow elves hail from the Underdark, gaining superior darkvision (120 ft) and innate magic tied to shadow and deception. Sunlight Sensitivity is removed in the 2024 rules.",
+        spells: [
+          { level: 1, name: "Dancing Lights", note: "cantrip" },
+          { level: 3, name: "Faerie Fire", note: "once per long rest" },
+          { level: 5, name: "Darkness", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Dancing Lights → Faerie Fire → Darkness",
+      },
+      {
+        id: "high-elf",
+        name: "High Elf",
+        description:
+          "High elves are steeped in arcane tradition, gaining access to wizard-adjacent magic. Their innate spellcasting makes them natural spellcasters and scholars.",
+        spells: [
+          { level: 1, name: "Prestidigitation", note: "cantrip" },
+          { level: 3, name: "Detect Magic", note: "once per long rest" },
+          { level: 5, name: "Misty Step", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Prestidigitation → Detect Magic → Misty Step",
+      },
+      {
+        id: "wood-elf",
+        name: "Wood Elf",
+        description:
+          "Wood elves are swift and attuned to the natural world, gaining druidic magic and enhanced mobility. Their base walking speed increases by 5 feet.",
+        spells: [
+          { level: 1, name: "Druidcraft", note: "cantrip" },
+          { level: 3, name: "Longstrider", note: "once per long rest" },
+          { level: 5, name: "Pass Without Trace", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Druidcraft → Longstrider → Pass Without Trace",
+      },
+    ],
   },
   {
     id: "dwarf",
@@ -82,11 +121,36 @@ export const races: Race[] = [
       "Gnomes are curious inventors and tricksters with an innate resistance to magic. Their boundless enthusiasm and sharp minds make them natural problem-solvers and spellcasters.",
     hint: "Good if you like outsmarting enemies and resisting spells",
     abilityBonuses: "+2 Intelligence",
-    traits: ["Darkvision", "Gnome Cunning"],
+    traits: ["Darkvision", "Gnome Cunning", "Gnomish Lineage"],
     editions: ["5e", "5.5e"],
     changes5_5e:
-      "Ability scores tied to background. Gnome Cunning now grants advantage on all Intelligence, Wisdom, and Charisma saving throws against spells.",
+      "Ability scores tied to background. Gnome Cunning now grants advantage on all Int/Wis/Cha saving throws against spells. Choose a Gnomish Lineage (Forest or Rock).",
     source: "PHB",
+    variantEditions: ["5.5e"],
+    variants: [
+      {
+        id: "forest-gnome",
+        name: "Forest Gnome",
+        description:
+          "Forest gnomes have a natural affinity for illusion and can communicate with small animals. Their magic reflects their playful, woodland nature.",
+        spells: [
+          { level: 1, name: "Minor Illusion", note: "cantrip" },
+          { level: 1, name: "Speak with Animals", note: "PB uses per long rest" },
+        ],
+        mechanicalSummary: "Minor Illusion + Speak with Animals",
+      },
+      {
+        id: "rock-gnome",
+        name: "Rock Gnome",
+        description:
+          "Rock gnomes are gifted tinkerers and craftspeople who can create small clockwork devices. Their practical ingenuity complements their magical aptitude.",
+        spells: [
+          { level: 1, name: "Mending", note: "cantrip" },
+          { level: 1, name: "Prestidigitation", note: "cantrip" },
+        ],
+        mechanicalSummary: "Mending + Prestidigitation + Tinker",
+      },
+    ],
   },
   {
     id: "tiefling",
@@ -95,11 +159,50 @@ export const races: Race[] = [
       "Tieflings bear the mark of an infernal heritage, granting them innate fire magic and a striking appearance. Their charisma and resilience make them natural leaders and spellcasters.",
     hint: "Good if you like dark aesthetics and free fire spells",
     abilityBonuses: "+2 Charisma, +1 Intelligence",
-    traits: ["Darkvision", "Hellish Resistance", "Infernal Legacy"],
+    traits: ["Darkvision", "Hellish Resistance", "Fiendish Legacy"],
     editions: ["5e", "5.5e"],
     changes5_5e:
-      "Three new lineages (Abyssal, Chthonic, Infernal) with unique spell progressions at levels 3 and 5.",
+      "Ability scores tied to background. Choose a Fiendish Legacy (Abyssal, Chthonic, or Infernal), each with unique spell progressions at levels 1, 3, and 5.",
     source: "PHB",
+    variantEditions: ["5.5e"],
+    variants: [
+      {
+        id: "abyssal",
+        name: "Abyssal",
+        description:
+          "Your fiendish legacy ties you to the chaotic demons of the Abyss, granting poison-related magic that corrupts and debilitates your foes.",
+        spells: [
+          { level: 1, name: "Poison Spray", note: "cantrip" },
+          { level: 3, name: "Ray of Sickness", note: "once per long rest" },
+          { level: 5, name: "Hold Person", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Poison Spray → Ray of Sickness → Hold Person",
+      },
+      {
+        id: "chthonic",
+        name: "Chthonic",
+        description:
+          "Your fiendish legacy ties you to the underworld, granting necrotic magic and communion with death. Your spells drain life and weaken enemies.",
+        spells: [
+          { level: 1, name: "Chill Touch", note: "cantrip" },
+          { level: 3, name: "False Life", note: "once per long rest" },
+          { level: 5, name: "Ray of Enfeeblement", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Chill Touch → False Life → Ray of Enfeeblement",
+      },
+      {
+        id: "infernal",
+        name: "Infernal",
+        description:
+          "Your fiendish legacy ties you to the Nine Hells, granting fire magic and charm abilities. Your spells burn and beguile in equal measure.",
+        spells: [
+          { level: 1, name: "Fire Bolt", note: "cantrip" },
+          { level: 3, name: "Charm Person", note: "once per long rest" },
+          { level: 5, name: "Suggestion", note: "once per long rest" },
+        ],
+        mechanicalSummary: "Fire Bolt → Charm Person → Suggestion",
+      },
+    ],
   },
   {
     id: "dragonborn",
@@ -118,19 +221,43 @@ export const races: Race[] = [
         id: "chromatic",
         name: "Chromatic",
         description:
-          "Descended from chromatic dragons (black, blue, green, red, white). Your breath weapon deals acid, lightning, poison, fire, or cold damage. You gain Chromatic Warding, becoming immune to your damage type at higher levels.",
+          "Descended from chromatic dragons (black, blue, green, red, white). Your breath weapon deals damage based on your dragon color. You gain Chromatic Warding, becoming immune to your damage type at higher levels.",
+        mechanicalSummary: "Breath weapon + Chromatic Warding immunity",
+        subVariants: [
+          { id: "black", name: "Black Dragon", damageType: "Acid", description: "Acid breath in a 30-foot line (Dex save). You gain resistance to acid damage." },
+          { id: "blue", name: "Blue Dragon", damageType: "Lightning", description: "Lightning breath in a 30-foot line (Dex save). You gain resistance to lightning damage." },
+          { id: "green", name: "Green Dragon", damageType: "Poison", description: "Poison breath in a 15-foot cone (Con save). You gain resistance to poison damage." },
+          { id: "red", name: "Red Dragon", damageType: "Fire", description: "Fire breath in a 15-foot cone (Dex save). You gain resistance to fire damage." },
+          { id: "white", name: "White Dragon", damageType: "Cold", description: "Cold breath in a 15-foot cone (Con save). You gain resistance to cold damage." },
+        ],
       },
       {
         id: "metallic",
         name: "Metallic",
         description:
           "Descended from metallic dragons (brass, bronze, copper, gold, silver). In addition to a destructive breath weapon, you gain a second breath that can incapacitate or push enemies away.",
+        mechanicalSummary: "Destructive + utility breath weapons",
+        subVariants: [
+          { id: "brass", name: "Brass Dragon", damageType: "Fire", description: "Fire breath in a 15-foot cone (Dex save). Second breath: sleep gas in a 15-foot cone." },
+          { id: "bronze", name: "Bronze Dragon", damageType: "Lightning", description: "Lightning breath in a 30-foot line (Dex save). Second breath: push enemies 30 feet." },
+          { id: "copper", name: "Copper Dragon", damageType: "Acid", description: "Acid breath in a 30-foot line (Dex save). Second breath: slow enemies in a 15-foot cone." },
+          { id: "gold", name: "Gold Dragon", damageType: "Fire", description: "Fire breath in a 15-foot cone (Dex save). Second breath: weaken enemies (Str save)." },
+          { id: "silver", name: "Silver Dragon", damageType: "Cold", description: "Cold breath in a 15-foot cone (Con save). Second breath: paralyze enemies (Con save)." },
+        ],
       },
       {
         id: "gem",
         name: "Gem",
         description:
-          "Descended from gem dragons (amethyst, crystal, emerald, sapphire, topaz). Your breath weapon deals force, radiant, psychic, thunder, or necrotic damage. You also gain limited flight via psionic energy.",
+          "Descended from gem dragons (amethyst, crystal, emerald, sapphire, topaz). Your breath weapon deals damage based on your dragon type. You also gain limited flight via psionic energy.",
+        mechanicalSummary: "Breath weapon + psionic flight",
+        subVariants: [
+          { id: "amethyst", name: "Amethyst Dragon", damageType: "Force", description: "Force breath in a 15-foot cone (Dex save). You gain resistance to force damage." },
+          { id: "crystal", name: "Crystal Dragon", damageType: "Radiant", description: "Radiant breath in a 30-foot line (Dex save). You gain resistance to radiant damage." },
+          { id: "emerald", name: "Emerald Dragon", damageType: "Psychic", description: "Psychic breath in a 15-foot cone (Int save). You gain resistance to psychic damage." },
+          { id: "sapphire", name: "Sapphire Dragon", damageType: "Thunder", description: "Thunder breath in a 15-foot cone (Con save). You gain resistance to thunder damage." },
+          { id: "topaz", name: "Topaz Dragon", damageType: "Necrotic", description: "Necrotic breath in a 15-foot cone (Con save). You gain resistance to necrotic damage." },
+        ],
       },
     ],
   },
@@ -142,9 +269,32 @@ export const races: Race[] = [
       "Aasimar are touched by celestial power, bearing a divine spark within. They can unleash radiant energy and transform into angelic forms, serving as beacons of hope in dark times.",
     hint: "Good if you want healing powers and a radiant angelic transformation",
     abilityBonuses: "Tied to background",
-    traits: ["Darkvision", "Celestial Resistance", "Healing Hands", "Light Bearer"],
+    traits: ["Darkvision", "Celestial Resistance", "Healing Hands", "Light Bearer", "Celestial Revelation"],
     editions: ["5.5e"],
     source: "PHB",
+    variants: [
+      {
+        id: "heavenly-wings",
+        name: "Heavenly Wings",
+        description:
+          "As a bonus action, you sprout spectral wings and gain a flying speed of 30 feet for 1 minute. You can use this once per long rest. The wings vanish early if you are incapacitated.",
+        mechanicalSummary: "Bonus action: 30 ft fly speed for 1 min",
+      },
+      {
+        id: "inner-radiance",
+        name: "Inner Radiance",
+        description:
+          "As a bonus action, you emit radiant energy for 1 minute. At the end of each of your turns, you and each creature of your choice within 10 feet take radiant damage equal to your proficiency bonus. Once per long rest.",
+        mechanicalSummary: "AoE radiant damage equal to PB each turn",
+      },
+      {
+        id: "necrotic-shroud",
+        name: "Necrotic Shroud",
+        description:
+          "As a bonus action, you unleash frightening divine energy for 1 minute. Creatures of your choice within 10 feet must make a Charisma save or be frightened until the end of your next turn. Once per turn, you deal extra necrotic damage equal to your proficiency bonus. Once per long rest.",
+        mechanicalSummary: "Frighten nearby enemies + bonus necrotic damage",
+      },
+    ],
   },
   {
     id: "goliath",
@@ -156,6 +306,50 @@ export const races: Race[] = [
     traits: ["Large Form", "Powerful Build", "Stone's Endurance", "Giant Ancestry"],
     editions: ["5.5e"],
     source: "PHB",
+    variants: [
+      {
+        id: "cloud-giant",
+        name: "Cloud Giant",
+        description:
+          "You can magically teleport up to 30 feet to an unoccupied space you can see. You can use this a number of times equal to your proficiency bonus, regaining all uses on a long rest.",
+        mechanicalSummary: "Teleport 30 ft (PB/long rest)",
+      },
+      {
+        id: "fire-giant",
+        name: "Fire Giant",
+        description:
+          "When you hit with an attack roll or deal damage with a spell, you can deal an extra 1d10 fire damage to the target. You can use this a number of times equal to your proficiency bonus, regaining all uses on a long rest.",
+        mechanicalSummary: "Extra 1d10 fire damage (PB/long rest)",
+      },
+      {
+        id: "frost-giant",
+        name: "Frost Giant",
+        description:
+          "When you take damage, you can use your reaction to gain resistance to cold damage and immunity to the cold condition until the start of your next turn. Usable a number of times equal to your proficiency bonus per long rest.",
+        mechanicalSummary: "Reaction: cold resistance + cold immunity",
+      },
+      {
+        id: "hill-giant",
+        name: "Hill Giant",
+        description:
+          "When you hit a Large or smaller creature with an attack roll, you can knock it Prone. You can use this a number of times equal to your proficiency bonus, regaining all uses on a long rest.",
+        mechanicalSummary: "Knock Large or smaller creatures Prone",
+      },
+      {
+        id: "stone-giant",
+        name: "Stone Giant",
+        description:
+          "When you take damage, you can use your reaction to reduce it by 1d12 + your Constitution modifier. Usable a number of times equal to your proficiency bonus per long rest.",
+        mechanicalSummary: "Reaction: reduce damage by 1d12 + Con",
+      },
+      {
+        id: "storm-giant",
+        name: "Storm Giant",
+        description:
+          "When a creature you can see within 60 feet of you deals damage to you, you can use your reaction to deal 1d8 lightning damage to that creature. Usable a number of times equal to your proficiency bonus per long rest.",
+        mechanicalSummary: "Reaction: 1d8 lightning to attacker (60 ft)",
+      },
+    ],
   },
   {
     id: "orc",
