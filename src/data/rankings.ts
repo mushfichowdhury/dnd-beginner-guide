@@ -24,6 +24,7 @@ export const subclassRankings: Record<string, Tier> = {
   zealot: "A",
   "ancestral-guardian": "A",
   beast: "B",
+  "wild-magic-barbarian": "B",
   "storm-herald": "C",
   berserker: "C",
 
@@ -37,10 +38,17 @@ export const subclassRankings: Record<string, Tier> = {
 
   // ========== CLERIC ==========
   "peace-domain": "S",
+  "twilight-domain": "S",
   "life-domain": "A",
   "forge-domain": "A",
   "light-domain": "A",
+  "war-domain": "A",
+  "tempest-domain": "A",
+  "order-domain": "A",
+  "knowledge-domain": "A",
   "grave-domain": "B",
+  "nature-domain": "B",
+  "trickery-domain": "C",
 
   // ========== DRUID ==========
   "circle-of-the-shepherd": "S",
@@ -73,7 +81,9 @@ export const subclassRankings: Record<string, Tier> = {
   "oath-of-conquest": "S",
   "oath-of-devotion": "A",
   "oath-of-redemption": "A",
+  "oath-of-the-ancients": "A",
   "oath-of-glory": "B",
+  "oath-of-the-watchers": "B",
 
   // ========== RANGER ==========
   "gloom-stalker": "S",
@@ -113,9 +123,18 @@ export const subclassRankings: Record<string, Tier> = {
 
   // ========== WIZARD ==========
   bladesinging: "S",
+  "school-of-divination": "S",
+  "chronurgy-magic": "S",
   "war-magic": "A",
   "school-of-abjuration": "A",
+  "order-of-scribes": "A",
+  "school-of-conjuration": "A",
+  "school-of-illusion": "A",
+  "school-of-necromancy": "A",
   "school-of-evocation": "B",
+  "school-of-enchantment": "B",
+  "school-of-transmutation": "B",
+  "graviturgy-magic": "B",
 
   // ========== ARTIFICER ==========
   armorer: "S",

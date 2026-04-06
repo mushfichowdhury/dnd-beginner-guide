@@ -6,6 +6,7 @@ const colorMap: Record<Source, string> = {
   "Tasha's Cauldron": "bg-purple-900 text-purple-200",
   "Volo's Guide": "bg-green-900 text-green-200",
   "Mordenkainen's": "bg-red-900 text-red-200",
+  "Explorer's Guide": "bg-amber-900 text-amber-200",
 };
 
 export default function SourceBadge({ source }: { source: Source }) {

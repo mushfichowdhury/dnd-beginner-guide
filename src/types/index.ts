@@ -1,5 +1,5 @@
 export type Edition = "5e" | "5.5e";
-export type Source = "PHB" | "Tasha's Cauldron" | "Xanathar's Guide" | "Volo's Guide" | "Mordenkainen's";
+export type Source = "PHB" | "Tasha's Cauldron" | "Xanathar's Guide" | "Volo's Guide" | "Mordenkainen's" | "Explorer's Guide";
 
 export interface VariantSpell {
   level: number;
