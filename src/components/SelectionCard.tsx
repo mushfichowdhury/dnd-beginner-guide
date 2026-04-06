@@ -65,7 +65,7 @@ export default function SelectionCard({
           onClick();
         }
       }}
-      className={`card-celestial flex h-full w-full flex-col cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 overflow-y-auto ${
+      className={`card-celestial flex h-full w-full flex-col cursor-pointer rounded-xl border p-4 text-left transition-all duration-300 overflow-x-hidden overflow-y-auto ${
         selected
           ? "ring-2 ring-white/70 bg-gray-800/90 border-white/50"
           : "border-indigo-500/20 bg-gray-900/80 hover:border-white/30 hover:bg-gray-900/95"

@@ -127,7 +127,7 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
             <motion.div
               key={i}
               className={`shrink-0 ${tall ? "h-full" : ""}`}
-              style={{ width: cardWidth || "85%", marginLeft: i === 0 ? sideInset : 0 }}
+              style={{ width: cardWidth || "85%" }}
               animate={{
                 scale: i === activeIndex ? 1 : 0.92,
                 opacity: i === activeIndex ? 1 : 0.4,
