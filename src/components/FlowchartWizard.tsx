@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Edition, Step, Race, DndClass, Subclass, RaceVariant, RaceSubVariant } from "@/types";
-import { races } from "@/data/races";
-import { classes } from "@/data/classes";
-import { subclasses } from "@/data/subclasses";
-import { classRankings, subclassRankings, Tier } from "@/data/rankings";
+import { Race, RaceVariant, RaceSubVariant } from "@/types";
+import { classRankings, subclassRankings } from "@/data/rankings";
+import { useCharacterWizard, stepOrder } from "@/hooks/useCharacterWizard";
 import EditionToggle from "./EditionToggle";
 import CardGrid from "./CardGrid";
 import SelectionCard from "./SelectionCard";
@@ -16,12 +14,7 @@ import Tooltip from "./Tooltip";
 import Modal from "./Modal";
 import TierBadge from "./TierBadge";
 import { traitDescriptions } from "@/data/traitDescriptions";
-
-type SortMode = "default" | "reddit";
-
-const tierOrder: Record<Tier, number> = { S: 0, A: 1, B: 2, C: 3 };
-
-const stepOrder: Step[] = ["race", "class", "subclass", "summary"];
+import { SectionHeading, RedditRankToggle, CompletedStepCard, SummaryCard, SummaryLabel } from "./WizardHelpers";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -37,32 +30,21 @@ const healthTierLabels: Record<string, string> = {
 };
 
 export default function FlowchartWizard() {
-  const [edition, setEdition] = useState<Edition>("5e");
-  const [currentStep, setCurrentStep] = useState<Step>("race");
-  const [selectedRace, setSelectedRace] = useState<Race | null>(null);
-  const [selectedClass, setSelectedClass] = useState<DndClass | null>(null);
-  const [selectedSubclass, setSelectedSubclass] = useState<Subclass | null>(null);
-  const [selectedVariant, setSelectedVariant] = useState<RaceVariant | null>(null);
-  const [classSortMode, setClassSortMode] = useState<SortMode>("default");
-  const [subclassSortMode, setSubclassSortMode] = useState<SortMode>("default");
-
-  const [selectedSubVariant, setSelectedSubVariant] = useState<RaceSubVariant | null>(null);
-
-  // Modal states
-  const [detailRace, setDetailRace] = useState<Race | null>(null);
-  const [detailSubclass, setDetailSubclass] = useState<Subclass | null>(null);
-  const [showVariantPicker, setShowVariantPicker] = useState(false);
-  const [pendingVariant, setPendingVariant] = useState<RaceVariant | null>(null);
-  const [pendingSubVariant, setPendingSubVariant] = useState<RaceSubVariant | null>(null);
-  const [subVariantStep, setSubVariantStep] = useState(false);
+  const wizard = useCharacterWizard();
+  const {
+    edition, currentStep, selectedRace, selectedClass, selectedSubclass,
+    selectedVariant, selectedSubVariant, classSortMode, subclassSortMode,
+    detailRace, detailSubclass, showVariantPicker, pendingVariant,
+    pendingSubVariant, subVariantStep, raceLabel, currentIndex,
+    filteredRaces, sortedClasses, sortedSubclasses,
+    setClassSortMode, setSubclassSortMode, setDetailRace, setDetailSubclass,
+    setShowVariantPicker, setPendingVariant, setPendingSubVariant, setSubVariantStep,
+    handleEditionChange, handleEditStep, raceHasVariants,
+  } = wizard;
 
   const classRef = useRef<HTMLDivElement>(null);
   const subclassRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
-
-  const raceLabel = edition === "5.5e" ? "Species" : "Race";
-
-  const currentIndex = stepOrder.indexOf(currentStep);
 
   const scrollToRef = (ref: React.RefObject<HTMLDivElement | null>) => {
     setTimeout(() => {
@@ -70,83 +52,25 @@ export default function FlowchartWizard() {
     }, 500);
   };
 
-  const handleEditionChange = (e: Edition) => {
-    setEdition(e);
-    setSelectedRace(null);
-    setSelectedVariant(null);
-    setSelectedSubVariant(null);
-    setSelectedClass(null);
-    setSelectedSubclass(null);
-    setCurrentStep("race");
-  };
-
   const handleRaceSelect = (race: Race, variant?: RaceVariant | null, subVariant?: RaceSubVariant | null) => {
-    setSelectedRace(race);
-    setSelectedVariant(variant ?? null);
-    setSelectedSubVariant(subVariant ?? null);
-    setSelectedClass(null);
-    setSelectedSubclass(null);
-    setCurrentStep("class");
+    wizard.handleRaceSelect(race, variant, subVariant);
     scrollToRef(classRef);
   };
 
-  const handleClassSelect = (cls: DndClass) => {
-    setSelectedClass(cls);
-    setSelectedSubclass(null);
-    setCurrentStep("subclass");
+  const handleClassSelect = (cls: import("@/types").DndClass) => {
+    wizard.handleClassSelect(cls);
     scrollToRef(subclassRef);
   };
 
-  const handleSubclassSelect = (sub: Subclass) => {
-    setSelectedSubclass(sub);
-    setCurrentStep("summary");
+  const handleSubclassSelect = (sub: import("@/types").Subclass) => {
+    wizard.handleSubclassSelect(sub);
     scrollToRef(summaryRef);
   };
 
   const handleStartOver = () => {
-    setSelectedRace(null);
-    setSelectedVariant(null);
-    setSelectedSubVariant(null);
-    setSelectedClass(null);
-    setSelectedSubclass(null);
-    setCurrentStep("race");
+    wizard.handleStartOver();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const handleEditStep = (step: Step) => {
-    if (step === "race") {
-      setSelectedRace(null);
-      setSelectedVariant(null);
-      setSelectedSubVariant(null);
-      setSelectedClass(null);
-      setSelectedSubclass(null);
-    } else if (step === "class") {
-      setSelectedClass(null);
-      setSelectedSubclass(null);
-    } else if (step === "subclass") {
-      setSelectedSubclass(null);
-    }
-    setCurrentStep(step);
-  };
-
-  const raceHasVariants = (race: Race) => {
-    if (!race.variants || race.variants.length === 0) return false;
-    if (race.variantEditions && !race.variantEditions.includes(edition)) return false;
-    return true;
-  };
-
-  const filteredRaces = races.filter((r) => r.editions.includes(edition));
-  const filteredSubclasses = selectedClass
-    ? subclasses.filter((s) => s.classId === selectedClass.id)
-    : [];
-
-  const sortedClasses = classSortMode === "reddit"
-    ? [...classes].sort((a, b) => tierOrder[classRankings[a.id] ?? "C"] - tierOrder[classRankings[b.id] ?? "C"])
-    : classes;
-
-  const sortedSubclasses = subclassSortMode === "reddit"
-    ? [...filteredSubclasses].sort((a, b) => tierOrder[subclassRankings[a.id] ?? "C"] - tierOrder[subclassRankings[b.id] ?? "C"])
-    : filteredSubclasses;
 
   return (
     <div className="flex flex-col items-center">
@@ -775,107 +699,3 @@ export default function FlowchartWizard() {
   );
 }
 
-/* ─── Helper Components ─── */
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mb-3 text-center text-2xl font-bold text-gray-100 font-heading text-glow-sm">
-      {children}
-    </h2>
-  );
-}
-
-function RedditRankToggle({
-  value,
-  onChange,
-}: {
-  value: SortMode;
-  onChange: (mode: SortMode) => void;
-}) {
-  const isReddit = value === "reddit";
-  return (
-    <div className="flex shrink-0 items-center gap-2">
-      <span className="text-xs text-gray-400">Rank by Reddit?</span>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={isReddit}
-        onClick={() => onChange(isReddit ? "default" : "reddit")}
-        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-          isReddit ? "bg-indigo-600" : "bg-gray-700"
-        }`}
-      >
-        <span
-          className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
-            isReddit ? "translate-x-[18px]" : "translate-x-0.5"
-          }`}
-        />
-      </button>
-    </div>
-  );
-}
-
-function CompletedStepCard({
-  label,
-  name,
-  source,
-  detail,
-  onEdit,
-}: {
-  label: string;
-  name: string;
-  source: import("@/types").Source;
-  detail?: string;
-  onEdit: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className="card-celestial mx-auto max-w-lg w-full rounded-xl border border-indigo-500/20 bg-gray-900/80 p-4"
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-              {label}
-            </span>
-            <p className="truncate font-heading font-bold text-white text-glow-sm">{name}</p>
-            {detail && <p className="text-xs text-gray-400 mt-0.5">{detail}</p>}
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <SourceBadge source={source} />
-          <button
-            type="button"
-            onClick={onEdit}
-            className="rounded-lg border border-gray-700 px-3 py-1 text-xs text-gray-400 transition-colors hover:border-white/40 hover:text-white"
-          >
-            Change
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function SummaryCard({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div
-      variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-      transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-      className="card-celestial rounded-xl border border-indigo-500/20 bg-gray-900/80 p-5"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function SummaryLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-      {children}
-    </h3>
-  );
-}

@@ -19,11 +19,16 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
 };
 
-export default function CardGrid({ children }: { children: ReactNode }) {
+interface CardGridProps {
+  children: ReactNode;
+  tall?: boolean;
+}
+
+export default function CardGrid({ children, tall }: CardGridProps) {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    return <MobileCarousel>{children}</MobileCarousel>;
+    return <MobileCarousel tall={tall}>{children}</MobileCarousel>;
   }
 
   return (

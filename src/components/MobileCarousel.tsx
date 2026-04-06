@@ -1,14 +1,19 @@
 "use client";
 
 import { ReactNode, Children, useState, useEffect, useRef, useCallback } from "react";
-import { motion, PanInfo, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, PanInfo, useMotionValue, animate as motionAnimate } from "framer-motion";
 
-const SWIPE_THRESHOLD = 50;
-const VELOCITY_THRESHOLD = 500;
-const CARD_WIDTH_PERCENT = 85; // Active card takes 85% of viewport
-const CARD_GAP = 12; // px gap between cards
+const SWIPE_THRESHOLD = 80;
+const VELOCITY_THRESHOLD = 300;
+const CARD_WIDTH_PERCENT = 85;
+const CARD_GAP = 12;
 
-export default function MobileCarousel({ children }: { children: ReactNode }) {
+interface MobileCarouselProps {
+  children: ReactNode;
+  tall?: boolean;
+}
+
+export default function MobileCarousel({ children, tall }: MobileCarouselProps) {
   const items = Children.toArray(children);
   const total = items.length;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -37,17 +42,16 @@ export default function MobileCarousel({ children }: { children: ReactNode }) {
 
   const cardWidth = containerWidth * (CARD_WIDTH_PERCENT / 100);
   const slideWidth = cardWidth + CARD_GAP;
-  // Offset to center the active card with peek on both sides
   const sideInset = (containerWidth - cardWidth) / 2;
 
-  const dragX = useMotionValue(0);
-  const baseX = -activeIndex * slideWidth;
-  const springX = useSpring(baseX, { stiffness: 300, damping: 30 });
+  const x = useMotionValue(sideInset);
+  const dragStartX = useRef(0);
 
-  // Keep spring target in sync with activeIndex
+  // Animate to target position when activeIndex changes
   useEffect(() => {
-    springX.set(-activeIndex * slideWidth);
-  }, [activeIndex, slideWidth, springX]);
+    const targetX = -activeIndex * slideWidth + sideInset;
+    motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
+  }, [activeIndex, slideWidth, sideInset, x]);
 
   const goTo = useCallback(
     (newIndex: number) => {
@@ -57,12 +61,30 @@ export default function MobileCarousel({ children }: { children: ReactNode }) {
     [total],
   );
 
+  const handleDragStart = () => {
+    dragStartX.current = x.get();
+  };
+
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     const { offset, velocity } = info;
-    if (offset.x < -SWIPE_THRESHOLD || velocity.x < -VELOCITY_THRESHOLD) {
-      goTo(Math.min(activeIndex + 1, total - 1));
-    } else if (offset.x > SWIPE_THRESHOLD || velocity.x > VELOCITY_THRESHOLD) {
-      goTo(Math.max(activeIndex - 1, 0));
+    const absOffset = Math.abs(offset.x);
+    const absVelocity = Math.abs(velocity.x);
+
+    let direction = 0;
+    // Require both distance AND speed, OR a very deliberate large drag (30% of container)
+    if (
+      (absOffset > SWIPE_THRESHOLD && absVelocity > VELOCITY_THRESHOLD) ||
+      absOffset > containerWidth * 0.3
+    ) {
+      direction = offset.x < 0 ? 1 : -1;
+    }
+
+    if (direction !== 0) {
+      goTo(activeIndex + direction);
+    } else {
+      // Snap back to current card
+      const targetX = -activeIndex * slideWidth + sideInset;
+      motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
     }
   };
 
@@ -76,26 +98,23 @@ export default function MobileCarousel({ children }: { children: ReactNode }) {
   return (
     <div onKeyDown={handleKeyDown} tabIndex={-1} className="outline-none">
       {/* Carousel viewport */}
-      <div ref={containerRef} className="overflow-hidden">
+      <div ref={containerRef} className="overflow-hidden" style={{ touchAction: "pan-y" }}>
         <motion.div
           className="flex items-stretch"
-          style={{
-            paddingLeft: sideInset,
-            gap: CARD_GAP,
-            x: useTransform(() => springX.get() + dragX.get()),
-          }}
+          style={{ gap: CARD_GAP, x }}
           drag="x"
+          dragDirectionLock
+          dragMomentum={false}
+          dragElastic={0.15}
           dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.2}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          onDrag={(_, info) => dragX.set(info.offset.x)}
-          onDragStart={() => dragX.set(0)}
         >
           {items.map((child, i) => (
             <motion.div
               key={i}
-              className="shrink-0"
-              style={{ width: cardWidth || "85%" }}
+              className={`shrink-0 ${tall ? "min-h-[65vh]" : ""}`}
+              style={{ width: cardWidth || "85%", marginLeft: i === 0 ? sideInset : 0 }}
               animate={{
                 scale: i === activeIndex ? 1 : 0.92,
                 opacity: i === activeIndex ? 1 : 0.4,
