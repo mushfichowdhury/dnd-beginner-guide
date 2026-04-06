@@ -4,7 +4,7 @@ import { ReactNode, Children, useState, useEffect, useRef, useCallback } from "r
 import { motion, PanInfo, useMotionValue, animate as motionAnimate } from "framer-motion";
 
 const SWIPE_THRESHOLD = 80;
-const VELOCITY_THRESHOLD = 300;
+const VELOCITY_THRESHOLD = 500;
 const CARD_WIDTH_PERCENT = 85;
 const CARD_GAP = 12;
 
@@ -46,11 +46,15 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
 
   const x = useMotionValue(sideInset);
   const dragStartX = useRef(0);
+  const isAnimating = useRef(false);
 
   // Animate to target position when activeIndex changes
   useEffect(() => {
     const targetX = -activeIndex * slideWidth + sideInset;
-    motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
+    isAnimating.current = true;
+    const controls = motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
+    controls.then(() => { isAnimating.current = false; });
+    return () => controls.stop();
   }, [activeIndex, slideWidth, sideInset, x]);
 
   const goTo = useCallback(
@@ -66,15 +70,16 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
+    if (isAnimating.current) return;
     const { offset, velocity } = info;
     const absOffset = Math.abs(offset.x);
     const absVelocity = Math.abs(velocity.x);
 
     let direction = 0;
-    // Require both distance AND speed, OR a very deliberate large drag (30% of container)
+    // Require both distance AND speed, OR a very deliberate large drag (35% of container)
     if (
       (absOffset > SWIPE_THRESHOLD && absVelocity > VELOCITY_THRESHOLD) ||
-      absOffset > containerWidth * 0.3
+      absOffset > containerWidth * 0.35
     ) {
       direction = offset.x < 0 ? 1 : -1;
     }
@@ -84,7 +89,9 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
     } else {
       // Snap back to current card
       const targetX = -activeIndex * slideWidth + sideInset;
-      motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
+      isAnimating.current = true;
+      const controls = motionAnimate(x, targetX, { type: "spring", stiffness: 300, damping: 30 });
+      controls.then(() => { isAnimating.current = false; });
     }
   };
 
@@ -102,25 +109,24 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
       role="region"
       aria-label="Card carousel"
       aria-roledescription="carousel"
-      className="outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/60 focus-visible:rounded-sm"
+      className="flex h-full flex-col outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/60 focus-visible:rounded-sm"
     >
       {/* Carousel viewport */}
-      <div ref={containerRef} className="overflow-hidden" style={{ touchAction: "pan-y" }}>
+      <div ref={containerRef} className="flex-1 overflow-hidden" style={{ touchAction: "none" }}>
         <motion.div
-          className="flex items-stretch"
+          className="flex h-full items-stretch"
           style={{ gap: CARD_GAP, x }}
           drag="x"
           dragDirectionLock
           dragMomentum={false}
-          dragElastic={0.15}
-          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
           {items.map((child, i) => (
             <motion.div
               key={i}
-              className={`shrink-0 ${tall ? "min-h-[65vh]" : ""}`}
+              className={`shrink-0 ${tall ? "h-full" : ""}`}
               style={{ width: cardWidth || "85%", marginLeft: i === 0 ? sideInset : 0 }}
               animate={{
                 scale: i === activeIndex ? 1 : 0.92,
@@ -135,7 +141,7 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
       </div>
 
       {/* Navigation row */}
-      <div className="mt-4 flex items-center justify-center gap-4">
+      <div className="mt-4 flex shrink-0 items-center justify-center gap-4">
         <button
           type="button"
           onClick={() => goTo(activeIndex - 1)}
