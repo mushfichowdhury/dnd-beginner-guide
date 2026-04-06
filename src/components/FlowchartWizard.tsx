@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Race, RaceVariant, RaceSubVariant } from "@/types";
 import { classRankings, subclassRankings } from "@/data/rankings";
-import { useCharacterWizard, stepOrder } from "@/hooks/useCharacterWizard";
+import { CharacterWizardReturn, stepOrder } from "@/hooks/useCharacterWizard";
 import EditionToggle from "./EditionToggle";
 import CardGrid from "./CardGrid";
 import SelectionCard from "./SelectionCard";
@@ -29,8 +29,7 @@ const healthTierLabels: Record<string, string> = {
   Low: "Low Health",
 };
 
-export default function FlowchartWizard() {
-  const wizard = useCharacterWizard();
+export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardReturn }) {
   const {
     edition, currentStep, selectedRace, selectedClass, selectedSubclass,
     selectedVariant, selectedSubVariant, classSortMode, subclassSortMode,

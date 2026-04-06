@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Edition } from "@/types";
 import { classRankings, subclassRankings } from "@/data/rankings";
-import { useCharacterWizard } from "@/hooks/useCharacterWizard";
+import { CharacterWizardReturn } from "@/hooks/useCharacterWizard";
 import CardGrid from "./CardGrid";
 import SelectionCard from "./SelectionCard";
 import SourceBadge from "./SourceBadge";
@@ -29,8 +29,7 @@ const slideVariants = {
   }),
 };
 
-export default function MobileWizard() {
-  const wizard = useCharacterWizard();
+export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn }) {
   const {
     edition, selectedRace, selectedClass, selectedSubclass,
     selectedVariant, selectedSubVariant, classSortMode, subclassSortMode,
