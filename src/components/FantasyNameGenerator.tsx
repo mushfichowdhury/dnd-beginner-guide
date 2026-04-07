@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SummaryCard, SummaryLabel } from "./WizardHelpers";
@@ -70,6 +70,7 @@ export default function FantasyNameGenerator({
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [fireworkId, setFireworkId] = useState<number | null>(null);
   const [fireworkPos, setFireworkPos] = useState<{ x: number; y: number } | null>(null);
+  const selectedElementRef = useRef<HTMLElement | null>(null);
 
   const rollNames = useCallback(() => {
     const generated = generateNames(
@@ -94,10 +95,15 @@ export default function FantasyNameGenerator({
   };
 
   const handleSelectName = (name: string, el: HTMLElement) => {
-    const rect = el.getBoundingClientRect();
-    setFireworkPos({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+    selectedElementRef.current = el;
     setSelectedName(name);
-    setFireworkId((id) => (id ?? 0) + 1);
+    setTimeout(() => {
+      if (selectedElementRef.current) {
+        const rect = selectedElementRef.current.getBoundingClientRect();
+        setFireworkPos({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+        setFireworkId((id) => (id ?? 0) + 1);
+      }
+    }, 350);
   };
 
   const displayedNames = selectedName ? [selectedName] : names;
@@ -185,9 +191,9 @@ export default function FantasyNameGenerator({
                       backgroundColor: { duration: 0.4 },
                     }}
                     onClick={(e) => !selectedName && handleSelectName(name, e.currentTarget)}
-                    className={`relative rounded-md px-5 py-2 flex items-center justify-center ${
-                      !selectedName ? "cursor-pointer hover:bg-gray-700/80" : ""
-                    } ${isSelected ? "col-span-1 mx-auto w-full" : ""}`}
+                    className={`relative rounded-md py-2 flex items-center justify-center ${
+                      !selectedName ? "cursor-pointer hover:bg-gray-700/80 px-5" : ""
+                    } ${isSelected ? "col-span-1 mx-auto w-fit px-8" : "px-5"}`}
                   >
                     <span className="font-heading font-semibold text-white text-glow-sm relative z-20">
                       {name}
