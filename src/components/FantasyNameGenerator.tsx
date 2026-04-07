@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SummaryCard, SummaryLabel } from "./WizardHelpers";
 import { generateNames, NameMode } from "@/utils/nameGenerator";
@@ -14,9 +14,41 @@ const modes: { value: NameMode; label: string }[] = [
   { value: "letter", label: "By Letter" },
 ];
 
-const COUNTS = [3, 6];
-
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+const PARTICLE_COLORS = ["#facc15", "#f97316", "#ec4899", "#a78bfa", "#34d399", "#60a5fa"];
+
+function Firework({ id }: { id: number }) {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => {
+        const angle = (i / 12) * 2 * Math.PI;
+        const distance = 60 + Math.random() * 40;
+        return {
+          x: Math.cos(angle) * distance,
+          y: Math.sin(angle) * distance,
+          color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
+        };
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id]
+  );
+
+  return (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible z-10">
+      {particles.map((p, i) => (
+        <motion.div
+          key={`${id}-${i}`}
+          className="absolute w-2 h-2 rounded-full"
+          style={{ backgroundColor: p.color }}
+          initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          animate={{ x: p.x, y: p.y, opacity: 0, scale: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function FantasyNameGenerator({
   raceId,
@@ -24,18 +56,19 @@ export default function FantasyNameGenerator({
   const [mode, setMode] = useState<NameMode>("full");
   const [names, setNames] = useState<string[]>([]);
   const [selectedLetter, setSelectedLetter] = useState("A");
-  const [count, setCount] = useState(3);
   const [rerollKey, setRerollKey] = useState(0);
+  const [selectedName, setSelectedName] = useState<string | null>(null);
+  const [fireworkId, setFireworkId] = useState<number | null>(null);
 
   const rollNames = useCallback(() => {
     const generated = generateNames(
       raceId,
       mode,
-      count,
+      6,
       mode === "letter" ? selectedLetter : undefined
     );
     setNames(generated);
-  }, [raceId, mode, count, selectedLetter]);
+  }, [raceId, mode, selectedLetter]);
 
   useEffect(() => {
     rollNames();
@@ -43,8 +76,17 @@ export default function FantasyNameGenerator({
 
   const handleReroll = () => {
     setRerollKey((k) => k + 1);
+    setSelectedName(null);
+    setFireworkId(null);
     rollNames();
   };
+
+  const handleSelectName = (name: string) => {
+    setSelectedName(name);
+    setFireworkId((id) => (id ?? 0) + 1);
+  };
+
+  const displayedNames = selectedName ? [selectedName] : names;
 
   return (
     <SummaryCard>
@@ -65,25 +107,6 @@ export default function FantasyNameGenerator({
             {m.label}
           </button>
         ))}
-      </div>
-
-      {/* Count toggle */}
-      <div className="flex justify-center">
-        <div className="flex rounded-md bg-gray-800 p-0.5 gap-0.5">
-          {COUNTS.map((c) => (
-            <button
-              key={c}
-              onClick={() => setCount(c)}
-              className={`rounded px-3 py-1 text-xs font-medium transition-colors ${
-                count === c
-                  ? "bg-indigo-600 text-white shadow-sm"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              {c} names
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Letter picker (only in "letter" mode) */}
@@ -124,21 +147,45 @@ export default function FantasyNameGenerator({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="flex flex-col items-center gap-2"
+            className={`grid gap-2 w-full ${selectedName ? "grid-cols-1" : "grid-cols-2"}`}
           >
-            {names.map((name, i) => (
-              <motion.div
-                key={`${rerollKey}-${i}`}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2, delay: i * 0.07 }}
-                className="rounded-md bg-gray-800/60 px-5 py-2"
-              >
-                <span className="font-heading font-semibold text-white text-glow-sm">
-                  {name}
-                </span>
-              </motion.div>
-            ))}
+            <AnimatePresence>
+              {displayedNames.map((name, i) => {
+                const isSelected = name === selectedName;
+                return (
+                  <motion.div
+                    key={name}
+                    layout
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      backgroundColor: isSelected
+                        ? "rgb(22,163,74)"
+                        : "rgba(31,41,55,0.6)",
+                    }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: isSelected ? 0 : i * 0.07,
+                      backgroundColor: { duration: 0.4 },
+                      layout: { duration: 0.3 },
+                    }}
+                    onClick={() => !selectedName && handleSelectName(name)}
+                    className={`relative rounded-md px-5 py-2 flex items-center justify-center overflow-visible ${
+                      !selectedName ? "cursor-pointer hover:bg-gray-700/80" : ""
+                    } ${isSelected ? "col-span-1 mx-auto w-full" : ""}`}
+                  >
+                    {isSelected && fireworkId !== null && (
+                      <Firework id={fireworkId} />
+                    )}
+                    <span className="font-heading font-semibold text-white text-glow-sm relative z-20">
+                      {name}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </motion.div>
         </AnimatePresence>
       </div>
