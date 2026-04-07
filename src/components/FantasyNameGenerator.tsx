@@ -176,7 +176,7 @@ export default function FantasyNameGenerator({
                 return (
                   <motion.div
                     key={name}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 1, x: 0 }}
                     animate={{
                       opacity: 1,
                       x: 0,
@@ -184,10 +184,10 @@ export default function FantasyNameGenerator({
                         ? "rgb(22,163,74)"
                         : "rgba(31,41,55,0.6)",
                     }}
-                    exit={{ opacity: 0, scale: 0.8 }}
+                    exit={{ opacity: 1, scale: 1 }}
                     transition={{
-                      duration: 0.2,
-                      delay: isSelected ? 0 : i * 0.07,
+                      duration: 0,
+                      delay: 0,
                       backgroundColor: { duration: 0.4 },
                     }}
                     onClick={(e) => !selectedName && handleSelectName(name, e.currentTarget)}
