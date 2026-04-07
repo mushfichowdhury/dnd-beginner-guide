@@ -1,5 +1,6 @@
 "use client";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef, type RefObject } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SummaryCard, SummaryLabel } from "./WizardHelpers";
 import { generateNames, NameMode } from "@/utils/nameGenerator";
@@ -18,12 +19,22 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 const PARTICLE_COLORS = ["#facc15", "#f97316", "#ec4899", "#a78bfa", "#34d399", "#60a5fa"];
 
-function Firework({ id }: { id: number }) {
+function Firework({ anchorRef, id }: { anchorRef: RefObject<HTMLDivElement | null>; id: number }) {
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (anchorRef.current) {
+      const rect = anchorRef.current.getBoundingClientRect();
+      setPos({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   const particles = useMemo(
     () =>
-      Array.from({ length: 12 }, (_, i) => {
-        const angle = (i / 12) * 2 * Math.PI;
-        const distance = 60 + Math.random() * 40;
+      Array.from({ length: 20 }, (_, i) => {
+        const angle = (i / 20) * 2 * Math.PI;
+        const distance = 90 + Math.random() * 60;
         return {
           x: Math.cos(angle) * distance,
           y: Math.sin(angle) * distance,
@@ -34,19 +45,30 @@ function Firework({ id }: { id: number }) {
     [id]
   );
 
-  return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible z-10">
+  if (!pos) return null;
+
+  return createPortal(
+    <div
+      style={{
+        position: "fixed",
+        left: pos.x,
+        top: pos.y,
+        pointerEvents: "none",
+        zIndex: 9999,
+      }}
+    >
       {particles.map((p, i) => (
         <motion.div
           key={`${id}-${i}`}
-          className="absolute w-2 h-2 rounded-full"
+          className="absolute w-2.5 h-2.5 rounded-full"
           style={{ backgroundColor: p.color }}
           initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
           animate={{ x: p.x, y: p.y, opacity: 0, scale: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.9, ease: "easeOut", delay: i * 0.02 }}
         />
       ))}
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -59,6 +81,7 @@ export default function FantasyNameGenerator({
   const [rerollKey, setRerollKey] = useState(0);
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [fireworkId, setFireworkId] = useState<number | null>(null);
+  const selectedCardRef = useRef<HTMLDivElement>(null);
 
   const rollNames = useCallback(() => {
     const generated = generateNames(
@@ -89,6 +112,7 @@ export default function FantasyNameGenerator({
   const displayedNames = selectedName ? [selectedName] : names;
 
   return (
+    <>
     <SummaryCard>
       <SummaryLabel>Character Name Ideas</SummaryLabel>
 
@@ -155,6 +179,7 @@ export default function FantasyNameGenerator({
                 return (
                   <motion.div
                     key={name}
+                    ref={isSelected ? selectedCardRef : undefined}
                     layout
                     initial={{ opacity: 0, x: -10 }}
                     animate={{
@@ -172,13 +197,10 @@ export default function FantasyNameGenerator({
                       layout: { duration: 0.3 },
                     }}
                     onClick={() => !selectedName && handleSelectName(name)}
-                    className={`relative rounded-md px-5 py-2 flex items-center justify-center overflow-visible ${
+                    className={`relative rounded-md px-5 py-2 flex items-center justify-center ${
                       !selectedName ? "cursor-pointer hover:bg-gray-700/80" : ""
                     } ${isSelected ? "col-span-1 mx-auto w-full" : ""}`}
                   >
-                    {isSelected && fireworkId !== null && (
-                      <Firework id={fireworkId} />
-                    )}
                     <span className="font-heading font-semibold text-white text-glow-sm relative z-20">
                       {name}
                     </span>
@@ -200,5 +222,9 @@ export default function FantasyNameGenerator({
         </button>
       </div>
     </SummaryCard>
+    {selectedName && fireworkId !== null && (
+      <Firework anchorRef={selectedCardRef} id={fireworkId} />
+    )}
+    </>
   );
 }
