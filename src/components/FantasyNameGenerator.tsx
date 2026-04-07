@@ -14,6 +14,8 @@ const modes: { value: NameMode; label: string }[] = [
   { value: "letter", label: "By Letter" },
 ];
 
+const COUNTS = [3, 6];
+
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 export default function FantasyNameGenerator({
@@ -22,17 +24,18 @@ export default function FantasyNameGenerator({
   const [mode, setMode] = useState<NameMode>("full");
   const [names, setNames] = useState<string[]>([]);
   const [selectedLetter, setSelectedLetter] = useState("A");
+  const [count, setCount] = useState(3);
   const [rerollKey, setRerollKey] = useState(0);
 
   const rollNames = useCallback(() => {
     const generated = generateNames(
       raceId,
       mode,
-      3,
+      count,
       mode === "letter" ? selectedLetter : undefined
     );
     setNames(generated);
-  }, [raceId, mode, selectedLetter]);
+  }, [raceId, mode, count, selectedLetter]);
 
   useEffect(() => {
     rollNames();
@@ -62,6 +65,25 @@ export default function FantasyNameGenerator({
             {m.label}
           </button>
         ))}
+      </div>
+
+      {/* Count toggle */}
+      <div className="flex justify-center">
+        <div className="flex rounded-md bg-gray-800 p-0.5 gap-0.5">
+          {COUNTS.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCount(c)}
+              className={`rounded px-3 py-1 text-xs font-medium transition-colors ${
+                count === c
+                  ? "bg-indigo-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              {c} names
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Letter picker (only in "letter" mode) */}
@@ -94,7 +116,7 @@ export default function FantasyNameGenerator({
       </AnimatePresence>
 
       {/* Name display */}
-      <div className="mt-3 space-y-2">
+      <div className="mt-3">
         <AnimatePresence mode="wait">
           <motion.div
             key={rerollKey}
@@ -102,7 +124,7 @@ export default function FantasyNameGenerator({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="space-y-2"
+            className="flex flex-col items-center gap-2"
           >
             {names.map((name, i) => (
               <motion.div
@@ -110,7 +132,7 @@ export default function FantasyNameGenerator({
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: i * 0.07 }}
-                className="rounded-lg bg-gray-800/60 px-4 py-2.5"
+                className="rounded-md bg-gray-800/60 px-5 py-2"
               >
                 <span className="font-heading font-semibold text-white text-glow-sm">
                   {name}
