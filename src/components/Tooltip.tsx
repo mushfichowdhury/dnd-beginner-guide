@@ -18,7 +18,7 @@ export default function Tooltip({ children, text }: TooltipProps) {
   const show = () => {
     if (ref.current) {
       const r = ref.current.getBoundingClientRect();
-      setPos({ top: r.top + window.scrollY, left: r.left + r.width / 2 });
+      setPos({ top: r.top, left: r.left + r.width / 2 });
     }
     setVisible(true);
   };
