@@ -1,0 +1,17 @@
+export const weaponDamage: Record<string, string> = {
+  "Hand Crossbows": "Damage: 1d6 piercing",
+  "Longswords": "Damage: 1d8 slashing",
+  "Rapiers": "Damage: 1d8 piercing",
+  "Shortswords": "Damage: 1d6 piercing",
+  "Clubs": "Damage: 1d4 bludgeoning",
+  "Daggers": "Damage: 1d4 piercing",
+  "Darts": "Damage: 1d4 piercing",
+  "Javelins": "Damage: 1d6 piercing",
+  "Maces": "Damage: 1d6 bludgeoning",
+  "Quarterstaffs": "Damage: 1d6 bludgeoning",
+  "Scimitars": "Damage: 1d6 slashing",
+  "Sickles": "Damage: 1d4 slashing",
+  "Slings": "Damage: 1d4 bludgeoning",
+  "Spears": "Damage: 1d6 piercing",
+  "Light Crossbows": "Damage: 1d8 piercing",
+};

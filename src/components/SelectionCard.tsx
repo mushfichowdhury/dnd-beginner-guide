@@ -8,6 +8,7 @@ import TierBadge from "./TierBadge";
 import Tooltip from "./Tooltip";
 import { traitDescriptions } from "@/data/traitDescriptions";
 import { skillDescriptions } from "@/data/skillDescriptions";
+import { weaponDamage } from "@/data/weaponDamage";
 
 const healthTierStyles: Record<HealthTier, string> = {
   "High": "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
@@ -142,9 +143,11 @@ export default function SelectionCard({
               <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">Weapons</span>
               <div className="mt-0.5 flex flex-wrap gap-1">
                 {proficiencies.weapons.map((w) => (
-                  <span key={w} className="rounded-md bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 text-[10px] text-purple-300">
-                    {w}
-                  </span>
+                  <Tooltip key={w} text={weaponDamage[w]}>
+                    <span className="rounded-md bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 text-[10px] text-purple-300">
+                      {w}
+                    </span>
+                  </Tooltip>
                 ))}
               </div>
             </div>
