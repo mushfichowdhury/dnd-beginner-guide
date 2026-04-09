@@ -129,13 +129,6 @@ export default function ShareCharacterButton({
   const canShowDetails = !!(classData && subclassData);
   const isDetailed = showDetails && canShowDetails;
 
-  const skillsText = (() => {
-    if (!classData) return "";
-    const { choose, from } = classData.proficiencies.skills;
-    const list = from.length > 6 ? from.slice(0, 5).join(", ") + ", ..." : from.join(", ");
-    return `Choose ${choose}: ${list}`;
-  })();
-
   return (
     <>
       {/* Hidden card for html2canvas capture */}
@@ -192,7 +185,7 @@ export default function ShareCharacterButton({
               {/* Class Details */}
               <div style={DIVIDER_STYLE} />
               <div>
-                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 8 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 8, textAlign: "center" }}>
                   Class Details
                 </div>
                 <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
@@ -214,26 +207,42 @@ export default function ShareCharacterButton({
               {/* Proficiencies */}
               <div style={DIVIDER_STYLE} />
               <div>
-                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 8 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 8, textAlign: "center" }}>
                   Proficiencies
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                  <ProfRow label="Saving Throws" value={classData.proficiencies.savingThrows.join(", ")} />
+                <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                  <ProfChips
+                    label="Saving Throws"
+                    items={classData.proficiencies.savingThrows}
+                    chipStyle={{ bg: "rgba(6,182,212,0.1)", border: "rgba(6,182,212,0.2)", text: "#67e8f9" }}
+                  />
                   {classData.proficiencies.armor.length > 0 && (
-                    <ProfRow label="Armor" value={classData.proficiencies.armor.join(", ")} />
+                    <ProfChips
+                      label="Armor"
+                      items={classData.proficiencies.armor}
+                      chipStyle={{ bg: "rgba(99,102,241,0.1)", border: "rgba(99,102,241,0.2)", text: "#a5b4fc" }}
+                    />
                   )}
-                  <ProfRow label="Weapons" value={classData.proficiencies.weapons.join(", ")} />
-                  <ProfRow label="Skills" value={skillsText} />
+                  <ProfChips
+                    label="Weapons"
+                    items={classData.proficiencies.weapons}
+                    chipStyle={{ bg: "rgba(168,85,247,0.1)", border: "rgba(168,85,247,0.2)", text: "#d8b4fe" }}
+                  />
+                  <ProfChips
+                    label={`Skills (choose ${classData.proficiencies.skills.choose})`}
+                    items={classData.proficiencies.skills.from}
+                    chipStyle={{ bg: "rgba(55,65,81,0.5)", border: "rgba(75,85,99,0.3)", text: "#9ca3af" }}
+                  />
                 </div>
               </div>
 
               {/* Subclass Details */}
               <div style={DIVIDER_STYLE} />
               <div>
-                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 6 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 6, textAlign: "center" }}>
                   Subclass Details
                 </div>
-                <div style={{ fontSize: 11, color: "#d1d5db", lineHeight: 1.55 }}>
+                <div style={{ fontSize: 11, color: "#d1d5db", lineHeight: 1.55, textAlign: "center" }}>
                   {subclassData.synopsis}
                 </div>
               </div>
@@ -317,14 +326,37 @@ function CardRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ProfRow({ label, value }: { label: string; value: string }) {
+function ProfChips({
+  label,
+  items,
+  chipStyle,
+}: {
+  label: string;
+  items: string[];
+  chipStyle: { bg: string; border: string; text: string };
+}) {
   return (
-    <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-      <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#818cf8", minWidth: 74, paddingTop: 1, flexShrink: 0 }}>
+    <div style={{ textAlign: "center" }}>
+      <div style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 4 }}>
         {label}
       </div>
-      <div style={{ fontSize: 11, color: "#d1d5db", flex: 1, lineHeight: 1.45 }}>
-        {value}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 3, justifyContent: "center" }}>
+        {items.map((item) => (
+          <div
+            key={item}
+            style={{
+              background: chipStyle.bg,
+              border: `1px solid ${chipStyle.border}`,
+              borderRadius: 6,
+              padding: "2px 7px",
+              fontSize: 9,
+              color: chipStyle.text,
+              fontWeight: 500,
+            }}
+          >
+            {item}
+          </div>
+        ))}
       </div>
     </div>
   );
