@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useCallback } from "react";
-import html2canvas from "html2canvas";
+import { toBlob } from "html-to-image";
 import type { Edition, DndClass, Subclass } from "@/types";
 
 interface ShareCharacterButtonProps {
@@ -63,16 +63,7 @@ export default function ShareCharacterButton({
     setStatus("sharing");
 
     try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, "image/png")
-      );
+      const blob = await toBlob(cardRef.current, { pixelRatio: 2 });
 
       if (!blob) {
         setStatus("failed");
@@ -156,17 +147,17 @@ export default function ShareCharacterButton({
           {/* Stats */}
           {isDetailed ? (
             <div style={{ display: "flex", gap: 0 }}>
-              <div style={{ flex: 1, textAlign: "center", padding: "0 8px" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
                 <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>{raceLabel}</div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{raceDisplay}</div>
               </div>
               <div style={{ width: 1, background: "rgba(99,102,241,0.25)" }} />
-              <div style={{ flex: 1, textAlign: "center", padding: "0 8px" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
                 <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Class</div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{dndClassName}</div>
               </div>
               <div style={{ width: 1, background: "rgba(99,102,241,0.25)" }} />
-              <div style={{ flex: 1, textAlign: "center", padding: "0 8px" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
                 <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Subclass</div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{subclassName}</div>
               </div>
