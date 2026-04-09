@@ -173,6 +173,17 @@ export default function ShareCharacterButton({
           {/* Detailed extra sections */}
           {isDetailed && classData && subclassData && (
             <>
+              {/* Subclass Details */}
+              <div style={DIVIDER_STYLE} />
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 6, textAlign: "center" }}>
+                  Subclass Details
+                </div>
+                <div style={{ fontSize: 11, color: "#d1d5db", lineHeight: 1.55, textAlign: "center" }}>
+                  {subclassData.synopsis}
+                </div>
+              </div>
+
               {/* Proficiencies */}
               <div style={DIVIDER_STYLE} />
               <div>
@@ -202,17 +213,6 @@ export default function ShareCharacterButton({
                     items={classData.proficiencies.skills.from}
                     chipStyle={{ bg: "rgba(55,65,81,0.5)", border: "rgba(75,85,99,0.3)", text: "#9ca3af" }}
                   />
-                </div>
-              </div>
-
-              {/* Subclass Details */}
-              <div style={DIVIDER_STYLE} />
-              <div>
-                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#818cf8", marginBottom: 6, textAlign: "center" }}>
-                  Subclass Details
-                </div>
-                <div style={{ fontSize: 11, color: "#d1d5db", lineHeight: 1.55, textAlign: "center" }}>
-                  {subclassData.synopsis}
                 </div>
               </div>
             </>
