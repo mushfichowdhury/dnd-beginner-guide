@@ -480,6 +480,8 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
                     dndClassName={selectedClass.name}
                     subclassName={selectedSubclass.name}
                     characterName={characterName}
+                    classData={selectedClass}
+                    subclassData={selectedSubclass}
                   />
                   <button
                     type="button"

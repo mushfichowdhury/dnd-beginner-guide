@@ -697,6 +697,8 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
                   dndClassName={selectedClass.name}
                   subclassName={selectedSubclass.name}
                   characterName={characterName}
+                  classData={selectedClass}
+                  subclassData={selectedSubclass}
                 />
                 <button
                   type="button"
