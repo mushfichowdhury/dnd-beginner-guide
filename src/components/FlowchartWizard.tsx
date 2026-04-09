@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Race, RaceVariant, RaceSubVariant } from "@/types";
 import FantasyNameGenerator from "./FantasyNameGenerator";
+import ShareCharacterButton from "./ShareCharacterButton";
 import { classRankings, subclassRankings } from "@/data/rankings";
 import { CharacterWizardReturn, stepOrder } from "@/hooks/useCharacterWizard";
 import EditionToggle from "./EditionToggle";
@@ -42,6 +43,7 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
     handleEditionChange, handleEditStep, raceHasVariants,
   } = wizard;
 
+  const [characterName, setCharacterName] = useState<string | null>(null);
   const classRef = useRef<HTMLDivElement>(null);
   const subclassRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -68,6 +70,7 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
   };
 
   const handleStartOver = () => {
+    setCharacterName(null);
     wizard.handleStartOver();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -678,14 +681,23 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
               </SummaryCard>
 
               {/* Fantasy Name Generator */}
-              <FantasyNameGenerator raceId={selectedRace.id} />
+              <FantasyNameGenerator raceId={selectedRace.id} onNameSelect={setCharacterName} />
 
-              {/* Start Over */}
+              {/* Share & Start Over */}
               <motion.div
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                 transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-                className="flex justify-center pt-6 pb-12"
+                className="flex justify-center gap-4 pt-6 pb-12"
               >
+                <ShareCharacterButton
+                  edition={edition}
+                  raceName={selectedRace.name}
+                  variantName={selectedVariant?.name}
+                  subVariantName={selectedSubVariant?.name}
+                  dndClassName={selectedClass.name}
+                  subclassName={selectedSubclass.name}
+                  characterName={characterName}
+                />
                 <button
                   type="button"
                   onClick={handleStartOver}

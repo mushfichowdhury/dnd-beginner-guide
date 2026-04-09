@@ -1,6 +1,6 @@
 import { raceNames, type RaceNameData } from "@/data/names";
 
-export type NameMode = "full" | "title" | "letter";
+export type NameMode = "full" | "title" | "letter" | "custom";
 
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -51,6 +51,8 @@ export function generateNames(
         name = `${first} ${last}`;
         break;
       }
+      case "custom":
+        return results;
     }
 
     if (!results.includes(name)) {

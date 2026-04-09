@@ -7,12 +7,14 @@ import { generateNames, NameMode } from "@/utils/nameGenerator";
 
 interface FantasyNameGeneratorProps {
   raceId: string;
+  onNameSelect?: (name: string | null) => void;
 }
 
 const modes: { value: NameMode; label: string }[] = [
   { value: "full", label: "Full Names" },
   { value: "title", label: "Title Names" },
   { value: "letter", label: "By Letter" },
+  { value: "custom", label: "Custom" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -62,6 +64,7 @@ function Firework({ pos, id }: { pos: { x: number; y: number }; id: number }) {
 
 export default function FantasyNameGenerator({
   raceId,
+  onNameSelect,
 }: FantasyNameGeneratorProps) {
   const [mode, setMode] = useState<NameMode>("full");
   const [names, setNames] = useState<string[]>([]);
@@ -71,8 +74,11 @@ export default function FantasyNameGenerator({
   const [fireworkId, setFireworkId] = useState<number | null>(null);
   const [fireworkPos, setFireworkPos] = useState<{ x: number; y: number } | null>(null);
   const selectedElementRef = useRef<HTMLElement | null>(null);
+  const [customInput, setCustomInput] = useState("");
+  const customInputRef = useRef<HTMLInputElement>(null);
 
   const rollNames = useCallback(() => {
+    if (mode === "custom") return;
     const generated = generateNames(
       raceId,
       mode,
@@ -91,12 +97,15 @@ export default function FantasyNameGenerator({
     setSelectedName(null);
     setFireworkId(null);
     setFireworkPos(null);
+    setCustomInput("");
+    onNameSelect?.(null);
     rollNames();
   };
 
   const handleSelectName = (name: string, el: HTMLElement) => {
     selectedElementRef.current = el;
     setSelectedName(name);
+    onNameSelect?.(name);
     setTimeout(() => {
       if (selectedElementRef.current) {
         const rect = selectedElementRef.current.getBoundingClientRect();
@@ -104,6 +113,24 @@ export default function FantasyNameGenerator({
         setFireworkId((id) => (id ?? 0) + 1);
       }
     }, 350);
+  };
+
+  const handleCustomConfirm = () => {
+    const trimmed = customInput.trim();
+    if (!trimmed) return;
+    const el = customInputRef.current;
+    if (el) {
+      handleSelectName(trimmed, el);
+    }
+  };
+
+  const handleModeChange = (newMode: NameMode) => {
+    setMode(newMode);
+    setSelectedName(null);
+    setFireworkId(null);
+    setFireworkPos(null);
+    setCustomInput("");
+    onNameSelect?.(null);
   };
 
   const displayedNames = selectedName ? [selectedName] : names;
@@ -118,7 +145,7 @@ export default function FantasyNameGenerator({
         {modes.map((m) => (
           <button
             key={m.value}
-            onClick={() => setMode(m.value)}
+            onClick={() => handleModeChange(m.value)}
             className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
               mode === m.value
                 ? "bg-indigo-600 text-white shadow-sm"
@@ -159,60 +186,96 @@ export default function FantasyNameGenerator({
         )}
       </AnimatePresence>
 
-      {/* Name display */}
-      <div className="mt-3">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={rerollKey}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
-            className={`grid gap-2 w-full ${selectedName ? "grid-cols-1" : "grid-cols-2"}`}
-          >
-            <AnimatePresence>
-              {displayedNames.map((name, i) => {
-                const isSelected = name === selectedName;
-                return (
-                  <motion.div
-                    key={name}
-                    initial={{ opacity: 1, x: 0 }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      backgroundColor: isSelected
-                        ? "rgb(22,163,74)"
-                        : "rgba(31,41,55,0.6)",
-                    }}
-                    exit={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0,
-                      delay: 0,
-                      backgroundColor: { duration: 0.4 },
-                    }}
-                    onClick={(e) => !selectedName && handleSelectName(name, e.currentTarget)}
-                    className={`relative rounded-md py-2 flex items-center justify-center ${
-                      !selectedName ? "cursor-pointer hover:bg-gray-700/80 px-5" : ""
-                    } ${isSelected ? "col-span-1 mx-auto w-fit px-8" : "px-5"}`}
-                  >
-                    <span className="font-heading font-semibold text-white text-glow-sm relative z-20">
-                      {name}
-                    </span>
-                  </motion.div>
-                );
-              })}
+      {/* Custom name input */}
+      {mode === "custom" ? (
+        <div className="mt-3">
+          {selectedName ? (
+            <div className="flex justify-center">
+              <div className="rounded-md py-2 px-8 mx-auto w-fit" style={{ backgroundColor: "rgb(22,163,74)" }}>
+                <span className="font-heading font-semibold text-white text-glow-sm">{selectedName}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <input
+                ref={customInputRef}
+                type="text"
+                value={customInput}
+                onChange={(e) => setCustomInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleCustomConfirm()}
+                placeholder="Enter your character's name..."
+                className="w-full rounded-lg border border-indigo-500/30 bg-gray-800 px-4 py-2.5 font-heading text-sm font-semibold text-white placeholder-gray-500 outline-none transition-colors focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30"
+              />
+              <div className="flex justify-center">
+                <button
+                  onClick={handleCustomConfirm}
+                  disabled={!customInput.trim()}
+                  className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  Use This Name
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <>
+          {/* Name display */}
+          <div className="mt-3">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={rerollKey}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className={`grid gap-2 w-full ${selectedName ? "grid-cols-1" : "grid-cols-2"}`}
+              >
+                <AnimatePresence>
+                  {displayedNames.map((name, i) => {
+                    const isSelected = name === selectedName;
+                    return (
+                      <motion.div
+                        key={name}
+                        initial={{ opacity: 1, x: 0 }}
+                        animate={{
+                          opacity: 1,
+                          x: 0,
+                          backgroundColor: isSelected
+                            ? "rgb(22,163,74)"
+                            : "rgba(31,41,55,0.6)",
+                        }}
+                        exit={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          duration: 0,
+                          delay: 0,
+                          backgroundColor: { duration: 0.4 },
+                        }}
+                        onClick={(e) => !selectedName && handleSelectName(name, e.currentTarget)}
+                        className={`relative rounded-md py-2 flex items-center justify-center ${
+                          !selectedName ? "cursor-pointer hover:bg-gray-700/80 px-5" : ""
+                        } ${isSelected ? "col-span-1 mx-auto w-fit px-8" : "px-5"}`}
+                      >
+                        <span className="font-heading font-semibold text-white text-glow-sm relative z-20">
+                          {name}
+                        </span>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </motion.div>
             </AnimatePresence>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+          </div>
+        </>
+      )}
 
-      {/* Reroll button */}
+      {/* Reroll / Reset button */}
       <div className="mt-4 flex justify-center">
         <button
           onClick={handleReroll}
           className="flex items-center justify-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 text-sm font-medium text-indigo-300 transition-colors hover:bg-indigo-500/20"
         >
-          ⟳ Reroll Names
+          {mode === "custom" && selectedName ? "⟳ Reset" : "⟳ Reroll Names"}
         </button>
       </div>
     </SummaryCard>

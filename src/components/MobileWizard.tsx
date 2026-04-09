@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Edition } from "@/types";
 import FantasyNameGenerator from "./FantasyNameGenerator";
+import ShareCharacterButton from "./ShareCharacterButton";
 import { classRankings, subclassRankings } from "@/data/rankings";
 import { CharacterWizardReturn } from "@/hooks/useCharacterWizard";
 import CardGrid from "./CardGrid";
@@ -44,6 +45,7 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
 
   const [mobileStep, setMobileStep] = useState<MobileStep>("edition");
   const [direction, setDirection] = useState(1);
+  const [characterName, setCharacterName] = useState<string | null>(null);
 
   const goToStep = (step: MobileStep) => {
     const currentIdx = mobileStepOrder.indexOf(mobileStep);
@@ -73,6 +75,7 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
   };
 
   const handleStartOver = () => {
+    setCharacterName(null);
     wizard.handleStartOver();
     goToStep("edition");
   };
@@ -466,9 +469,18 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
                 </SummaryCard>
 
                 {/* Fantasy Name Generator */}
-                <FantasyNameGenerator raceId={selectedRace.id} />
+                <FantasyNameGenerator raceId={selectedRace.id} onNameSelect={setCharacterName} />
 
-                <div className="flex justify-center pt-4 pb-4">
+                <div className="flex flex-col items-center gap-3 pt-4 pb-4">
+                  <ShareCharacterButton
+                    edition={edition}
+                    raceName={selectedRace.name}
+                    variantName={selectedVariant?.name}
+                    subVariantName={selectedSubVariant?.name}
+                    dndClassName={selectedClass.name}
+                    subclassName={selectedSubclass.name}
+                    characterName={characterName}
+                  />
                   <button
                     type="button"
                     onClick={handleStartOver}
