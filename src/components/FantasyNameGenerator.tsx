@@ -124,6 +124,12 @@ export default function FantasyNameGenerator({
     }
   };
 
+  useEffect(() => {
+    if (mode === "custom") {
+      customInputRef.current?.focus();
+    }
+  }, [mode]);
+
   const handleModeChange = (newMode: NameMode) => {
     setMode(newMode);
     setSelectedName(null);

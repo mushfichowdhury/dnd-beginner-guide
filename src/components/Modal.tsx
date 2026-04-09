@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, ReactNode } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -12,10 +12,15 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, children, maxWidth = "max-w-2xl" }: ModalProps) {
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onCloseRef.current();
     };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
@@ -24,7 +29,7 @@ export default function Modal({ isOpen, onClose, children, maxWidth = "max-w-2xl
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (typeof document === "undefined") return null;
 

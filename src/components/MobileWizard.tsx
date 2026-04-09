@@ -107,6 +107,7 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
           <button
             type="button"
             onClick={handleBack}
+            aria-label="Go back to previous step"
             className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-700 text-white/60"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">

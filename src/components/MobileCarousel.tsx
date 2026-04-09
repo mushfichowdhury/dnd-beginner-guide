@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, Children, useState, useEffect, useRef, useCallback } from "react";
+import { ReactNode, ReactElement, Children, useState, useEffect, useRef, useCallback } from "react";
 import { motion, PanInfo, useMotionValue, animate as motionAnimate } from "framer-motion";
 
 const SWIPE_THRESHOLD = 80;
@@ -125,7 +125,7 @@ export default function MobileCarousel({ children, tall }: MobileCarouselProps) 
         >
           {items.map((child, i) => (
             <motion.div
-              key={i}
+              key={(child as ReactElement).key ?? i}
               className={`shrink-0 ${tall ? "h-full" : ""}`}
               style={{ width: cardWidth || "85%" }}
               animate={{

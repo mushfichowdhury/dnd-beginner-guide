@@ -30,7 +30,7 @@ export default function Tooltip({ children, text }: TooltipProps) {
       </span>
       {visible && createPortal(
         <span
-          style={{ position: "fixed", top: pos.top, left: pos.left, transform: "translate(-50%, calc(-100% - 10px))", zIndex: 9999 }}
+          style={{ position: "fixed", top: pos.top, left: pos.left, transform: "translate(-50%, calc(-100% - 10px))", zIndex: 10000 }}
           className="pointer-events-none w-max max-w-[14rem] rounded-lg border border-gray-600 bg-gray-900 px-3 py-2 text-xs leading-relaxed text-gray-200 shadow-xl"
         >
           {text}
