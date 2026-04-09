@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useCallback } from "react";
-import html2canvas from "html2canvas";
+import { toBlob } from "html-to-image";
 import type { Edition, DndClass, Subclass } from "@/types";
 
 interface ShareCharacterButtonProps {
@@ -63,16 +63,7 @@ export default function ShareCharacterButton({
     setStatus("sharing");
 
     try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, "image/png")
-      );
+      const blob = await toBlob(cardRef.current, { pixelRatio: 2 });
 
       if (!blob) {
         setStatus("failed");
@@ -156,25 +147,19 @@ export default function ShareCharacterButton({
           {/* Stats */}
           {isDetailed ? (
             <div style={{ display: "flex", gap: 0 }}>
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "0 8px" }}>
-                <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                  <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>{raceLabel}</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{raceDisplay}</div>
-                </div>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
+                <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>{raceLabel}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{raceDisplay}</div>
               </div>
               <div style={{ width: 1, background: "rgba(99,102,241,0.25)" }} />
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "0 8px" }}>
-                <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                  <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Class</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{dndClassName}</div>
-                </div>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
+                <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Class</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{dndClassName}</div>
               </div>
               <div style={{ width: 1, background: "rgba(99,102,241,0.25)" }} />
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "0 8px" }}>
-                <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                  <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Subclass</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{subclassName}</div>
-                </div>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 8px", textAlign: "center" }}>
+                <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1.5, color: "#9ca3af", marginBottom: 3 }}>Subclass</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>{subclassName}</div>
               </div>
             </div>
           ) : (
@@ -195,23 +180,17 @@ export default function ShareCharacterButton({
                   Class Details
                 </div>
                 <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-                  <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px" }}>
-                    <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                      <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Hit Die</div>
-                      <div style={{ fontSize: 17, fontWeight: 700, color: "#a5b4fc" }}>{classData.hitDie}</div>
-                    </div>
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Hit Die</div>
+                    <div style={{ fontSize: 17, fontWeight: 700, color: "#a5b4fc" }}>{classData.hitDie}</div>
                   </div>
-                  <div style={{ flex: 2, display: "flex", flexDirection: "column", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px" }}>
-                    <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                      <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Primary Ability</div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: "#a5b4fc" }}>{classData.primaryAbility}</div>
-                    </div>
+                  <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Primary Ability</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#a5b4fc" }}>{classData.primaryAbility}</div>
                   </div>
-                  <div style={{ flex: 2, display: "flex", flexDirection: "column", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px" }}>
-                    <div style={{ margin: "auto", textAlign: "center", width: "100%" }}>
-                      <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Role</div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: "#a5b4fc", lineHeight: 1.3 }}>{classData.role}</div>
-                    </div>
+                  <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(99,102,241,0.1)", borderRadius: 8, padding: "7px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 8, color: "#9ca3af", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Role</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#a5b4fc", lineHeight: 1.3 }}>{classData.role}</div>
                   </div>
                 </div>
               </div>
@@ -357,12 +336,13 @@ function ProfChips({
           <div
             key={item}
             style={{
+              display: "inline-flex",
+              alignItems: "center",
               background: chipStyle.bg,
               border: `1px solid ${chipStyle.border}`,
               borderRadius: 6,
               padding: "2px 7px",
               fontSize: 9,
-              lineHeight: "1.2",
               color: chipStyle.text,
               fontWeight: 500,
             }}
