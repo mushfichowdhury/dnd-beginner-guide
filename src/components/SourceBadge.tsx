@@ -7,6 +7,19 @@ const colorMap: Record<Source, string> = {
   "Volo's Guide": "bg-green-900 text-green-200",
   "Mordenkainen's": "bg-red-900 text-red-200",
   "Explorer's Guide": "bg-amber-900 text-amber-200",
+  Eberron: "bg-orange-900 text-orange-200",
+  Ravnica: "bg-indigo-900 text-indigo-200",
+  Theros: "bg-yellow-900 text-yellow-200",
+  "Sword Coast": "bg-slate-800 text-slate-200",
+  "Van Richten's": "bg-rose-900 text-rose-200",
+  "Fizban's": "bg-red-800 text-red-200",
+  Spelljammer: "bg-cyan-900 text-cyan-200",
+  Dragonlance: "bg-stone-800 text-stone-200",
+  Witchlight: "bg-teal-900 text-teal-200",
+  "Critical Role": "bg-emerald-900 text-emerald-200",
+  MCDM: "bg-sky-900 text-sky-200",
+  "Kobold Press": "bg-lime-900 text-lime-200",
+  Obojima: "bg-pink-900 text-pink-200",
 };
 
 export default function SourceBadge({ source }: { source: Source }) {

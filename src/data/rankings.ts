@@ -15,6 +15,8 @@ export const classRankings: Record<string, Tier> = {
   barbarian: "B",
   artificer: "B",
   monk: "C",
+  "blood-hunter": "B",
+  illrigger: "B",
 };
 
 // Reddit community consensus subclass power rankings
@@ -27,6 +29,7 @@ export const subclassRankings: Record<string, Tier> = {
   "wild-magic-barbarian": "B",
   "storm-herald": "C",
   berserker: "C",
+  battlerager: "C",
 
   // ========== BARD ==========
   "college-of-lore": "S",
@@ -35,6 +38,9 @@ export const subclassRankings: Record<string, Tier> = {
   "college-of-creation": "B",
   "college-of-valor": "B",
   "college-of-whispers": "C",
+  "college-of-spirits": "A",
+  "college-of-the-road": "B",
+  "college-of-masks": "B",
 
   // ========== CLERIC ==========
   "peace-domain": "S",
@@ -57,6 +63,9 @@ export const subclassRankings: Record<string, Tier> = {
   "circle-of-dreams": "B",
   "circle-of-the-land": "B",
   "circle-of-spores": "C",
+  "circle-of-stars": "S",
+  "circle-of-ash": "B",
+  "circle-of-the-petal": "B",
 
   // ========== FIGHTER ==========
   "battle-master": "S",
@@ -67,6 +76,11 @@ export const subclassRankings: Record<string, Tier> = {
   samurai: "B",
   "arcane-archer": "C",
   champion: "C",
+  "purple-dragon-knight": "C",
+  "echo-knight": "S",
+  gunslinger: "B",
+  pugilist: "B",
+  "the-spirit-fused": "B",
 
   // ========== MONK ==========
   "way-of-mercy": "S",
@@ -75,6 +89,11 @@ export const subclassRankings: Record<string, Tier> = {
   "way-of-the-drunken-master": "B",
   "way-of-the-kensei": "B",
   "way-of-the-sun-soul": "C",
+  "way-of-the-long-death": "B",
+  "way-of-the-four-elements": "C",
+  "way-of-the-ascendant-dragon": "B",
+  "way-of-the-cobalt-soul": "A",
+  "sheep-dragon-shepherd": "B",
 
   // ========== PALADIN ==========
   "oath-of-vengeance": "S",
@@ -84,6 +103,9 @@ export const subclassRankings: Record<string, Tier> = {
   "oath-of-the-ancients": "A",
   "oath-of-glory": "B",
   "oath-of-the-watchers": "B",
+  "oath-of-the-crown": "B",
+  "oath-of-thunder": "B",
+  "oath-of-the-river": "B",
 
   // ========== RANGER ==========
   "gloom-stalker": "S",
@@ -93,6 +115,8 @@ export const subclassRankings: Record<string, Tier> = {
   "horizon-walker": "B",
   "monster-slayer": "B",
   "beast-master": "C",
+  drakewarden: "A",
+  "corrupted-ranger": "B",
 
   // ========== ROGUE ==========
   soulknife: "S",
@@ -103,6 +127,8 @@ export const subclassRankings: Record<string, Tier> = {
   thief: "B",
   assassin: "C",
   mastermind: "C",
+  phantom: "S",
+  "waxwork-rogue": "B",
 
   // ========== SORCERER ==========
   "clockwork-soul": "S",
@@ -112,6 +138,8 @@ export const subclassRankings: Record<string, Tier> = {
   "draconic-bloodline": "B",
   "wild-magic": "B",
   "storm-sorcery": "C",
+  runechild: "B",
+  "oni-bloodline": "B",
 
   // ========== WARLOCK ==========
   "the-hexblade": "S",
@@ -120,6 +148,9 @@ export const subclassRankings: Record<string, Tier> = {
   "the-celestial": "A",
   "the-great-old-one": "B",
   "the-fathomless": "B",
+  "the-undying": "C",
+  "the-undead": "A",
+  "the-lantern": "B",
 
   // ========== WIZARD ==========
   bladesinging: "S",
@@ -135,10 +166,23 @@ export const subclassRankings: Record<string, Tier> = {
   "school-of-enchantment": "B",
   "school-of-transmutation": "B",
   "graviturgy-magic": "B",
+  "school-of-geomancy": "B",
+  "origami-mage": "B",
 
   // ========== ARTIFICER ==========
   armorer: "S",
   "battle-smith": "A",
   artillerist: "A",
   alchemist: "C",
+
+  // ========== BLOOD HUNTER ==========
+  "order-of-the-ghostslayer": "S",
+  "order-of-the-lycan": "A",
+  "order-of-the-mutant": "B",
+  "order-of-the-profane-soul": "B",
+
+  // ========== ILLRIGGER ==========
+  "architect-of-ruin": "A",
+  painkiller: "A",
+  shadowmaster: "B",
 };

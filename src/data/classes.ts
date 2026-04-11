@@ -235,4 +235,42 @@ export const classes: DndClass[] = [
     },
     source: "Tasha's Cauldron",
   },
+
+  // ========== 3RD PARTY CLASSES ==========
+  {
+    id: "blood-hunter",
+    name: "Blood Hunter",
+    synopsis:
+      "Blood Hunters sacrifice their own vitality to fuel dark, blood-fueled abilities. They track and destroy monsters using hemocraft — blood curses and crimson rites that empower their weapons at a cost to their own health.",
+    hint: "Good if you want a dark monster hunter who uses their own blood as a weapon",
+    hitDie: "d10",
+    healthTier: "Above Average",
+    primaryAbility: "Strength or Dexterity & Intelligence",
+    role: "Melee DPS / Monster Hunter",
+    proficiencies: {
+      armor: ["Light Armor", "Medium Armor", "Shields"],
+      weapons: ["Simple Weapons", "Martial Weapons"],
+      savingThrows: ["Dexterity", "Intelligence"],
+      skills: { choose: 3, from: ["Acrobatics", "Arcana", "Athletics", "History", "Insight", "Investigation", "Religion", "Survival"] },
+    },
+    source: "Critical Role",
+  },
+  {
+    id: "illrigger",
+    name: "Illrigger",
+    synopsis:
+      "Illriggers are infernal knights who channel hellish power through diabolic contracts. They combine martial prowess with fiendish magic, using seals to mark enemies and consume their life force.",
+    hint: "Good if you want to play an anti-paladin powered by infernal pacts and tactical debuffs",
+    hitDie: "d10",
+    healthTier: "Above Average",
+    primaryAbility: "Strength & Charisma",
+    role: "Tank / Melee DPS / Debuffer",
+    proficiencies: {
+      armor: ["Light Armor", "Medium Armor", "Heavy Armor", "Shields"],
+      weapons: ["Simple Weapons", "Martial Weapons"],
+      savingThrows: ["Constitution", "Charisma"],
+      skills: { choose: 2, from: ["Athletics", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"] },
+    },
+    source: "MCDM",
+  },
 ];

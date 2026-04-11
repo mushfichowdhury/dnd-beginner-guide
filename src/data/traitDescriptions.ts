@@ -114,4 +114,142 @@ export const traitDescriptions: Record<string, string> = {
   // Genasi
   "Elemental Heritage": "Your connection to the elemental planes grants you unique abilities based on your chosen element (Air, Earth, Fire, or Water).",
   "Elemental Resistance": "You have resistance to the damage type associated with your elemental heritage.",
+
+  // Warforged (Eberron)
+  "Constructed Resilience": "You have advantage on saving throws against being poisoned, resistance to poison damage, immunity to disease, and you don't need to eat, drink, or breathe.",
+  "Sentry's Rest": "When you take a long rest, you spend at least 6 hours in an inactive but conscious state instead of sleeping.",
+  "Integrated Protection": "Your body has built-in defensive layers. Your base AC is 11 + your proficiency bonus (no armor) or AC + proficiency bonus (with armor).",
+  "Specialized Design": "You gain one skill proficiency and one tool proficiency of your choice.",
+
+  // Changeling (Eberron)
+  "Shapechanger": "As an action, you can change your appearance and voice. You determine the specifics including height, weight, facial features, hair, and voice.",
+  "Changeling Instincts": "You gain proficiency in two of the following skills: Deception, Insight, Intimidation, or Persuasion.",
+
+  // Kalashtar (Eberron)
+  "Dual Mind": "You have advantage on all Wisdom saving throws.",
+  "Mind Link": "You can telepathically speak to any creature within 10 × your level feet. The creature must share a language with you to respond.",
+  "Severed from Dreams": "You are immune to spells and effects that require you to dream, like the Dream spell.",
+
+  // Shifter (Eberron)
+  "Shifting": "As a bonus action, you can assume a more bestial form for 1 minute. You gain temporary HP and a subrace-specific benefit.",
+
+  // Centaur (Ravnica)
+  "Charge": "If you move at least 30 feet toward a target and hit it with a melee attack, deal an extra 1d6 damage.",
+  "Hooves": "Your hooves are natural melee weapons that deal 1d4 + Strength modifier bludgeoning damage.",
+  "Equine Build": "You count as one size larger for carrying capacity. Climbing costs 4× extra movement. Medium creatures can ride you.",
+
+  // Loxodon (Ravnica)
+  "Trunk": "Your trunk can grasp things, lift objects up to 5× your Strength, and use as a snorkel while submerged.",
+  "Loxodon Serenity": "You have advantage on saving throws against being charmed or frightened.",
+
+  // Minotaur (Ravnica)
+  "Horns": "Your horns are natural melee weapons that deal 1d6 + Strength modifier piercing damage.",
+  "Goring Rush": "After using the Dash action, you can make one melee attack with your horns as a bonus action.",
+  "Hammering Horns": "After hitting with a melee attack, you can use a bonus action to shove the target 10 feet away.",
+  "Labyrinthine Recall": "You can always recall the path you have traveled.",
+
+  // Vedalken (Ravnica)
+  "Vedalken Dispassion": "You have advantage on Intelligence, Wisdom, and Charisma saving throws.",
+  "Tireless Precision": "You gain proficiency with one tool and one skill of your choice, and can add 1d4 to checks with that tool or skill.",
+  "Partially Amphibious": "You can breathe underwater for up to 1 hour. After that, you must spend at least 1 hour on land before using this again.",
+
+  // Simic Hybrid (Ravnica)
+  "Animal Enhancement": "At 1st level, choose manta glide, nimble climber, or underwater adaptation. At 5th level, choose grappling appendages, carapace, or acid spit.",
+
+  // Satyr (Theros)
+  "Fey": "Your creature type is fey rather than humanoid. This makes you immune to spells that specifically target humanoids.",
+  "Ram": "Your ram is a natural melee weapon that deals 1d4 + Strength modifier bludgeoning damage.",
+  "Mirthful Leaps": "When you make a long or high jump, you can add 1d8 extra feet to the distance.",
+  "Reveler": "You gain proficiency in Performance and Persuasion skills, and one musical instrument of your choice.",
+
+  // Leonin (Theros)
+  "Hunter's Instincts": "You gain proficiency in one of the following: Athletics, Intimidation, Perception, or Survival.",
+  "Daunting Roar": "As a bonus action, you can let out a menacing roar. Each creature within 10 feet must make a Wisdom save or become frightened until end of your next turn.",
+
+  // Githyanki (Mordenkainen's)
+  "Githyanki Psionics": "You know the Mage Hand cantrip. At 3rd level, cast Jump once per long rest. At 5th level, cast Misty Step once per long rest.",
+  "Martial Prodigy": "You have proficiency with light and medium armor and with shortswords, longswords, and greatswords.",
+  "Astral Knowledge": "After a long rest, you gain proficiency in one skill of your choice until you finish your next long rest.",
+  "Psychic Resilience": "You have resistance to psychic damage.",
+
+  // Githzerai (Mordenkainen's)
+  "Githzerai Psionics": "You know the Mage Hand cantrip. At 3rd level, cast Shield once per long rest. At 5th level, cast Detect Thoughts once per long rest.",
+
+  // Eladrin (Mordenkainen's)
+  "Fey Step": "As a bonus action, you can teleport up to 30 feet to an unoccupied space. Usable once per short or long rest. The effect depends on your current season.",
+
+  // Shadar-kai (Mordenkainen's)
+  "Blessing of the Raven Queen": "As a bonus action, teleport up to 30 feet. After teleporting, you gain resistance to all damage until the start of your next turn. Usable once per long rest.",
+  "Necrotic Resistance": "You have resistance to necrotic damage.",
+
+  // Deep Gnome (Mordenkainen's)
+  "Superior Darkvision": "You can see in dim light within 120 feet as if it were bright light, and in darkness as if it were dim light.",
+  "Stone Camouflage": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain.",
+  "Gift of the Svirfneblin": "You can cast Nondetection on yourself at will without material components.",
+
+  // Duergar (Mordenkainen's)
+  "Duergar Magic": "At 3rd level, cast Enlarge/Reduce (enlarge only) on yourself once per long rest. At 5th level, cast Invisibility on yourself once per long rest.",
+  "Psionic Fortitude": "You have advantage on saving throws against being charmed or stunned.",
+
+  // Dhampir (Van Richten's)
+  "Vampiric Bite": "Your fanged bite deals 1d4 + Constitution modifier piercing damage. You gain a benefit: bonus to next ability check or attack, or regain HP equal to the damage dealt.",
+  "Spider Climb": "You have a climbing speed equal to your walking speed. You can climb difficult surfaces, including ceilings, without needing a check.",
+  "Deathless Nature": "You don't need to breathe. You have advantage on death saving throws and on saves against disease.",
+
+  // Hexblood (Van Richten's)
+  "Eerie Token": "You can create a small token from your body. While it exists, you can use an action to see or hear through it. You can also deliver touch-range spells through it.",
+  "Hex Magic": "You can cast Disguise Self and Hex once each per long rest without expending a spell slot.",
+  "Magic Token": "You can harmlessly remove a small piece of your body (tooth, nail, lock of hair) to create a supernatural token for remote spying.",
+  "Fey Creature Type": "Your creature type is fey rather than humanoid.",
+
+  // Reborn (Van Richten's)
+  "Knowledge from a Past Life": "When you make an ability check, you can add a d6 to the roll. You can use this a number of times equal to your proficiency bonus per long rest.",
+  "Ancestral Legacy": "If you previously had a different race, you retain any climbing, flying, or swimming speed and two skill proficiencies from that race.",
+
+  // Fairy (Witchlight)
+  "Fairy Magic": "You know the Druidcraft cantrip. At 3rd level, cast Faerie Fire once per long rest. At 5th level, cast Enlarge/Reduce once per long rest.",
+
+  // Harengon (Witchlight)
+  "Hare-Trigger": "You add your proficiency bonus to initiative rolls.",
+  "Leporine Senses": "You have proficiency in the Perception skill.",
+  "Lucky Footwork": "When you fail a Dexterity saving throw, you can use your reaction to add a d4 to the result, potentially turning it into a success.",
+  "Rabbit Hop": "As a bonus action, jump a number of feet equal to 5 × your proficiency bonus without provoking opportunity attacks.",
+
+  // Owlin (Witchlight)
+  "Silent Feathers": "You have proficiency in the Stealth skill.",
+
+  // Astral Elf (Spelljammer)
+  "Astral Fire": "You know one cantrip of your choice from Dancing Lights, Light, or Sacred Flame. Intelligence, Wisdom, or Charisma is your casting ability.",
+  "Starlight Step": "As a bonus action, you can teleport up to 30 feet to an unoccupied space you can see. Proficiency bonus uses per long rest.",
+
+  // Autognome (Spelljammer)
+  "Armored Casing": "You are encased in thin metal or another durable material. While not wearing armor, your base AC is 13 + Dexterity modifier.",
+  "Built for Success": "You can add a d4 to one attack roll, ability check, or saving throw. Proficiency bonus uses per long rest.",
+  "Mechanical Nature": "You have resistance to poison damage and immunity to disease. You don't need to eat, drink, or breathe. Mending repairs you for 1d8 HP.",
+
+  // Giff (Spelljammer)
+  "Astral Spark": "Your attacks deal extra force damage equal to your proficiency bonus. This applies once per turn.",
+  "Firearms Mastery": "You ignore the loading property of firearms and don't have disadvantage when firing in melee.",
+  "Hippo Build": "You count as one size larger for determining carrying capacity and the weight you can push, drag, or lift.",
+
+  // Hadozee (Spelljammer)
+  "Dexterous Feet": "You can use your feet to manipulate objects, open doors, and hold items (but not wield weapons or shields).",
+  "Glide": "When you fall, you can move horizontally 5 feet for every 1 foot you descend and take no falling damage.",
+  "Hadozee Resilience": "When you take damage, you can use your reaction to reduce the damage by 1d6 + proficiency bonus.",
+
+  // Plasmoid (Spelljammer)
+  "Amorphous": "You can squeeze through spaces as narrow as 1 inch without squeezing.",
+  "Natural Resilience": "You have resistance to acid and poison damage.",
+  "Shape Self": "As an action, you can reshape your body to give yourself a head, limbs, or other features. You can also form a pseudopod up to 10 feet long.",
+
+  // Thri-kreen (Spelljammer)
+  "Chameleon Carapace": "Your shell changes color to match your surroundings, giving you advantage on Stealth checks to hide.",
+  "Secondary Arms": "You have two smaller secondary arms that can manipulate objects, open doors, and hold items but cannot wield weapons or shields.",
+  "Sleepless": "You do not require sleep and can remain fully conscious during a long rest, provided you do nothing more than light activity.",
+  "Thri-kreen Telepathy": "You can communicate telepathically with any creature within 120 feet that you can see. The target doesn't need to share a language.",
+
+  // Kender (Dragonlance)
+  "Fearless": "You are immune to the frightened condition.",
+  "Kender Aptitude": "You gain proficiency in one of the following skills: Insight, Investigation, Sleight of Hand, Stealth, or Survival.",
+  "Taunt": "As a bonus action, you can taunt a creature within 60 feet. It must make a Wisdom save or have disadvantage on attacks against targets other than you until the start of your next turn.",
 };

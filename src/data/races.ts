@@ -464,6 +464,404 @@ export const races: Race[] = [
     source: "Xanathar's Guide",
   },
 
+  // ========== EBERRON RACES (5e only) ==========
+  {
+    id: "warforged",
+    name: "Warforged",
+    synopsis:
+      "Warforged are living constructs originally built for war. Made of wood, metal, and stone infused with magic, they are sentient beings who don't need to eat, drink, or breathe — and they never sleep.",
+    hint: "Good if you want to be a living robot who never sleeps and resists poison",
+    abilityBonuses: "+2 Constitution, +1 to one other",
+    traits: ["Constructed Resilience", "Sentry's Rest", "Integrated Protection", "Specialized Design"],
+    editions: ["5e"],
+    source: "Eberron",
+  },
+  {
+    id: "changeling",
+    name: "Changeling",
+    synopsis:
+      "Changelings are shapeshifters who can alter their appearance at will. This innate ability makes them natural spies, con artists, and infiltrators — though many simply use it to fit in wherever they go.",
+    hint: "Good if you want to change your appearance at will for perfect disguises",
+    abilityBonuses: "+2 Charisma, +1 to one other",
+    traits: ["Shapechanger", "Changeling Instincts"],
+    editions: ["5e"],
+    source: "Eberron",
+  },
+  {
+    id: "kalashtar",
+    name: "Kalashtar",
+    synopsis:
+      "Kalashtar are humans bound to spirits from the plane of dreams. This psychic bond grants them telepathy, mental resilience, and a serene disposition — but also makes them targets of the Dreaming Dark.",
+    hint: "Good if you want psychic resistance and telepathy from a dream spirit bond",
+    abilityBonuses: "+2 Wisdom, +1 Charisma",
+    traits: ["Dual Mind", "Mental Discipline", "Mind Link", "Severed from Dreams"],
+    editions: ["5e"],
+    source: "Eberron",
+  },
+  {
+    id: "shifter",
+    name: "Shifter",
+    synopsis:
+      "Shifters are descendants of humans and lycanthropes who can temporarily shift into bestial forms. Each subrace emphasizes a different animal aspect — toughness, claws, speed, or tracking instincts.",
+    hint: "Good if you want to briefly transform with bestial features for combat bonuses",
+    abilityBonuses: "+1 Dexterity, +1 varies by subrace",
+    traits: ["Darkvision", "Shifting"],
+    editions: ["5e"],
+    source: "Eberron",
+    variants: [
+      {
+        id: "beasthide",
+        name: "Beasthide",
+        description:
+          "When you shift, you gain temporary HP and +1 AC. Beasthide shifters are tough and durable, drawing on bear or boar ancestry.",
+      },
+      {
+        id: "longtooth",
+        name: "Longtooth",
+        description:
+          "When you shift, you grow fangs and can make a bite attack as a bonus action. Longtooth shifters channel wolf or tiger ancestry.",
+      },
+      {
+        id: "swiftstride",
+        name: "Swiftstride",
+        description:
+          "When you shift, your walking speed increases by 10 feet and you can move away from enemies without provoking opportunity attacks. Channels fox or cat ancestry.",
+      },
+      {
+        id: "wildhunt",
+        name: "Wildhunt",
+        description:
+          "When you shift, no creature within 30 feet can have advantage on attacks against you. Wildhunt shifters channel hawk or hound ancestry for supernatural awareness.",
+      },
+    ],
+  },
+
+  // ========== RAVNICA RACES (5e only) ==========
+  {
+    id: "centaur",
+    name: "Centaur",
+    synopsis:
+      "Centaurs are half-human, half-horse beings with powerful builds and a love of open spaces. Their charge ability and hooves make them formidable in melee, and they can even carry willing allies.",
+    hint: "Good if you want to charge enemies and carry allies on your back",
+    abilityBonuses: "+2 Strength, +1 Wisdom",
+    traits: ["Fey", "Charge", "Hooves", "Equine Build"],
+    editions: ["5e"],
+    source: "Ravnica",
+  },
+  {
+    id: "loxodon",
+    name: "Loxodon",
+    synopsis:
+      "Loxodons are elephant-folk with thick skin, a prehensile trunk, and a calm, community-minded nature. Their natural armor and serenity make them excellent tanks and support characters.",
+    hint: "Good if you want natural armor, a trunk for grappling, and advantage vs charm and fright",
+    abilityBonuses: "+2 Constitution, +1 Wisdom",
+    traits: ["Natural Armor", "Trunk", "Keen Smell", "Loxodon Serenity"],
+    editions: ["5e"],
+    source: "Ravnica",
+  },
+  {
+    id: "minotaur",
+    name: "Minotaur",
+    synopsis:
+      "Minotaurs are hulking bull-headed humanoids who excel at charging through enemies. Their horns are natural weapons, and they possess an uncanny ability to navigate mazes and complex structures.",
+    hint: "Good if you want to gore enemies with horn charges and never get lost",
+    abilityBonuses: "+2 Strength, +1 Constitution",
+    traits: ["Horns", "Goring Rush", "Hammering Horns", "Labyrinthine Recall"],
+    editions: ["5e"],
+    source: "Ravnica",
+  },
+  {
+    id: "vedalken",
+    name: "Vedalken",
+    synopsis:
+      "Vedalken are tall, blue-skinned beings driven by an insatiable thirst for knowledge. Their analytical minds grant them advantage on mental saving throws and bonuses to precision-based skills.",
+    hint: "Good if you want advantage on mental saves and bonuses to tool and skill checks",
+    abilityBonuses: "+2 Intelligence, +1 Wisdom",
+    traits: ["Vedalken Dispassion", "Tireless Precision", "Partially Amphibious"],
+    editions: ["5e"],
+    source: "Ravnica",
+  },
+  {
+    id: "simic-hybrid",
+    name: "Simic Hybrid",
+    synopsis:
+      "Simic Hybrids are beings who have been magically enhanced with animal adaptations. At character creation and again at 5th level, you choose enhancements like claws, wings, underwater breathing, or extra limbs.",
+    hint: "Good if you want to graft animal parts onto yourself for claws, flight, or underwater breathing",
+    abilityBonuses: "+2 Constitution, +1 to one other",
+    traits: ["Darkvision", "Animal Enhancement"],
+    editions: ["5e"],
+    source: "Ravnica",
+  },
+
+  // ========== THEROS RACES (5e only) ==========
+  {
+    id: "satyr",
+    name: "Satyr",
+    synopsis:
+      "Satyrs are fey creatures with goat-like legs who love revelry, music, and mischief. Their fey nature grants them magic resistance — one of the most powerful racial features in the game.",
+    hint: "Good if you want magic resistance as a fey creature who loves revelry",
+    abilityBonuses: "+2 Charisma, +1 Dexterity",
+    traits: ["Fey", "Magic Resistance", "Mirthful Leaps", "Ram", "Reveler"],
+    editions: ["5e"],
+    source: "Theros",
+  },
+  {
+    id: "leonin",
+    name: "Leonin",
+    synopsis:
+      "Leonin are proud lion-folk warriors with powerful claws and a terrifying roar. They are fiercely independent and distrustful of gods, preferring to rely on their own strength and community.",
+    hint: "Good if you want a lion-folk warrior with a terrifying roar",
+    abilityBonuses: "+2 Constitution, +1 Strength",
+    traits: ["Darkvision", "Claws", "Hunter's Instincts", "Daunting Roar"],
+    editions: ["5e"],
+    source: "Theros",
+  },
+
+  // ========== MORDENKAINEN'S / MOTM RACES ==========
+  {
+    id: "githyanki",
+    name: "Githyanki",
+    synopsis:
+      "Githyanki are astral warriors who dwell in the Astral Plane, riding red dragons and waging eternal war against mind flayers. They combine martial prowess with innate psionic abilities.",
+    hint: "Good if you want an astral warrior with psionics, armor proficiency, and a militant culture",
+    abilityBonuses: "+2 Strength, +1 Intelligence",
+    traits: ["Darkvision", "Githyanki Psionics", "Martial Prodigy", "Psychic Resilience"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+  {
+    id: "githzerai",
+    name: "Githzerai",
+    synopsis:
+      "Githzerai are disciplined monks from the plane of Limbo who harness pure mental focus to shape chaos itself. Their psionic training grants them powerful defensive abilities.",
+    hint: "Good if you want a monastic psionic who shrugs off mental attacks and casts Shield",
+    abilityBonuses: "+2 Wisdom, +1 Intelligence",
+    traits: ["Darkvision", "Githzerai Psionics", "Mental Discipline", "Psychic Resilience"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+  {
+    id: "eladrin",
+    name: "Eladrin",
+    synopsis:
+      "Eladrin are elves of the Feywild whose appearance and abilities shift with the seasons. Their signature Fey Step teleportation comes with a bonus effect based on their current season — charm, frighten, teleport an ally, or deal fire damage.",
+    hint: "Good if you want a fey elf who teleports with seasonal effects",
+    abilityBonuses: "+2 Charisma, +1 Dexterity",
+    traits: ["Darkvision", "Fey Ancestry", "Fey Step", "Trance"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+    variants: [
+      {
+        id: "autumn",
+        name: "Autumn",
+        description:
+          "When you use Fey Step, up to two creatures within 10 feet of where you teleport to must make a Wisdom save or be charmed for 1 minute.",
+      },
+      {
+        id: "winter",
+        name: "Winter",
+        description:
+          "When you use Fey Step, one creature within 5 feet of where you teleport to must make a Wisdom save or be frightened until the end of your next turn.",
+      },
+      {
+        id: "spring",
+        name: "Spring",
+        description:
+          "When you use Fey Step, you can instead teleport a willing creature within 5 feet of you to the destination space.",
+      },
+      {
+        id: "summer",
+        name: "Summer",
+        description:
+          "When you use Fey Step, each creature of your choice within 5 feet of where you teleport from must make a Constitution save or take fire damage equal to your Charisma modifier.",
+      },
+    ],
+  },
+  {
+    id: "shadar-kai",
+    name: "Shadar-kai",
+    synopsis:
+      "Shadar-kai are elves of the Shadowfell, servants of the Raven Queen. Their grim existence has made them resilient to necrotic energy, and they can teleport through shadows as a bonus action.",
+    hint: "Good if you want a Shadowfell elf who teleports and resists necrotic damage",
+    abilityBonuses: "+2 Dexterity, +1 Constitution",
+    traits: ["Darkvision", "Fey Ancestry", "Blessing of the Raven Queen", "Necrotic Resistance"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+  {
+    id: "deep-gnome",
+    name: "Deep Gnome",
+    synopsis:
+      "Deep Gnomes, or Svirfneblin, are gnomes adapted to the Underdark. They possess superior darkvision, innate camouflage in rocky terrain, and the same cunning resistance to magic as their surface kin.",
+    hint: "Good if you want an underdark gnome with superior darkvision and stealth in rocky terrain",
+    abilityBonuses: "+2 Intelligence, +1 Dexterity",
+    traits: ["Superior Darkvision", "Gnome Cunning", "Stone Camouflage", "Gift of the Svirfneblin"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+  {
+    id: "duergar",
+    name: "Duergar",
+    synopsis:
+      "Duergar are gray dwarves of the Underdark, forged by centuries of enslavement under mind flayers. They possess innate psionic magic to turn invisible and enlarge themselves — but sunlight weakens them.",
+    hint: "Good if you want an underdark dwarf who can turn invisible and grow to large size",
+    abilityBonuses: "+2 Constitution, +1 Strength",
+    traits: ["Superior Darkvision", "Dwarven Resilience", "Duergar Magic", "Psionic Fortitude", "Sunlight Sensitivity"],
+    editions: ["5e"],
+    source: "Mordenkainen's",
+  },
+
+  // ========== VAN RICHTEN'S LINEAGES (5e only) ==========
+  {
+    id: "dhampir",
+    name: "Dhampir",
+    synopsis:
+      "Dhampirs are half-vampires with an unnatural hunger. Their vampiric bite heals them or empowers their abilities, and they can climb walls like a spider — making them terrifying predators.",
+    hint: "Good if you want a half-vampire with a bite attack that heals you and spider climbing",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Darkvision", "Vampiric Bite", "Spider Climb", "Deathless Nature"],
+    editions: ["5e"],
+    source: "Van Richten's",
+  },
+  {
+    id: "hexblood",
+    name: "Hexblood",
+    synopsis:
+      "Hexbloods are fey-cursed beings — perhaps once human, now touched by hag magic. They can create eerie tokens from their own body to spy remotely and cast innate hex magic.",
+    hint: "Good if you want a fey-cursed creature with innate Hex and remote spying",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Darkvision", "Eerie Token", "Hex Magic", "Fey Creature Type"],
+    editions: ["5e"],
+    source: "Van Richten's",
+  },
+  {
+    id: "reborn",
+    name: "Reborn",
+    synopsis:
+      "Reborn are beings who have died and returned — whether as undead, constructs, or something else entirely. They carry fragmented memories of past lives and possess an unnatural resilience to death.",
+    hint: "Good if you want to play someone who died and came back, with echoes of past lives",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Deathless Nature", "Knowledge from a Past Life", "Ancestral Legacy"],
+    editions: ["5e"],
+    source: "Van Richten's",
+  },
+
+  // ========== WITCHLIGHT / MOTM RACES (5e only) ==========
+  {
+    id: "fairy",
+    name: "Fairy",
+    synopsis:
+      "Fairies are tiny fey beings with innate flight and magic. Despite their small size, they pack a punch with spells like Faerie Fire and Enlarge/Reduce, making them surprisingly versatile in any class.",
+    hint: "Good if you want to be a tiny flying fey creature with innate magic",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Fey", "Flight", "Fairy Magic"],
+    editions: ["5e"],
+    source: "Witchlight",
+  },
+  {
+    id: "harengon",
+    name: "Harengon",
+    synopsis:
+      "Harengon are rabbit-folk from the Feywild with exceptional reflexes and luck. Their bonus to initiative, reaction-based saving throw boost, and powerful jumps make them nimble and hard to pin down.",
+    hint: "Good if you want a rabbit-folk with bonus to initiative and exceptional jumping",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Hare-Trigger", "Leporine Senses", "Lucky Footwork", "Rabbit Hop"],
+    editions: ["5e"],
+    source: "Witchlight",
+  },
+  {
+    id: "owlin",
+    name: "Owlin",
+    synopsis:
+      "Owlins are owl-like humanoids with large wings and keen senses. Their silent flight and darkvision make them perfect scouts, and their Stealth proficiency ensures they're rarely detected.",
+    hint: "Good if you want a flying owl-person with stealth proficiency",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Darkvision", "Flight", "Silent Feathers"],
+    editions: ["5e"],
+    source: "Witchlight",
+  },
+
+  // ========== SPELLJAMMER RACES (5e only) ==========
+  {
+    id: "astral-elf",
+    name: "Astral Elf",
+    synopsis:
+      "Astral Elves have lived in the Astral Plane for so long that they've gained starlight-infused abilities. They can teleport via Starlight Step and their Astral Fire cantrip channels radiant energy.",
+    hint: "Good if you want an elf from the Astral Plane who teleports via starlight",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Darkvision", "Fey Ancestry", "Astral Fire", "Starlight Step", "Trance"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+  {
+    id: "autognome",
+    name: "Autognome",
+    synopsis:
+      "Autognomes are mechanical beings created by rock gnomes. They have natural armor, can add a d4 to failed saving throws, and repair themselves during short rests — making them remarkably resilient.",
+    hint: "Good if you want a small clockwork robot with natural armor and self-repair",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Armored Casing", "Built for Success", "Mechanical Nature", "Sentry's Rest"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+  {
+    id: "giff",
+    name: "Giff",
+    synopsis:
+      "Giff are hippo-headed humanoids with a military culture and a love of firearms. Their Astral Spark adds force damage to weapon attacks, and their powerful build lets them dominate in strength contests.",
+    hint: "Good if you want a hippo-folk with bonus weapon damage and powerful build",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Astral Spark", "Firearms Mastery", "Hippo Build"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+  {
+    id: "hadozee",
+    name: "Hadozee",
+    synopsis:
+      "Hadozees are simian beings with wing-like membranes that let them glide through the air. They can use their reaction to reduce falling damage and their dexterous feet can manipulate objects.",
+    hint: "Good if you want a simian glider who reduces fall damage with wing membranes",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Dexterous Feet", "Glide", "Hadozee Resilience"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+  {
+    id: "plasmoid",
+    name: "Plasmoid",
+    synopsis:
+      "Plasmoids are amorphous ooze-like beings who can reshape their bodies, squeeze through tiny gaps, and resist acid and poison. They're one of the most unusual playable races available.",
+    hint: "Good if you want an ooze-person who can squeeze through tiny gaps and reshape their body",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Amorphous", "Darkvision", "Hold Breath", "Natural Resilience", "Shape Self"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+  {
+    id: "thri-kreen",
+    name: "Thri-kreen",
+    synopsis:
+      "Thri-kreen are four-armed insectoid beings with natural camouflage and telepathy. Their secondary arms can hold extra items and their chameleon carapace lets them blend into any environment.",
+    hint: "Good if you want a four-armed insectoid with natural camouflage and telepathy",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Chameleon Carapace", "Darkvision", "Secondary Arms", "Sleepless", "Thri-kreen Telepathy"],
+    editions: ["5e"],
+    source: "Spelljammer",
+  },
+
+  // ========== DRAGONLANCE RACES (5e only) ==========
+  {
+    id: "kender",
+    name: "Kender",
+    synopsis:
+      "Kender are small, fearless folk from Krynn with an insatiable curiosity and a knack for taunting enemies. They are immune to the frightened condition and can provoke foes into reckless attacks.",
+    hint: "Good if you want a fearless halfling-like trickster who can taunt enemies into rage",
+    abilityBonuses: "+2/+1 to any two, or +1 to three",
+    traits: ["Fearless", "Kender Aptitude", "Taunt"],
+    editions: ["5e"],
+    source: "Dragonlance",
+  },
+
   // ========== MORDENKAINEN'S RACES (5e only) ==========
   {
     id: "aarakocra",
