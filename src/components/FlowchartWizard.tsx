@@ -687,7 +687,7 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
               <motion.div
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                 transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-                className="flex justify-center gap-4 pt-6 pb-12"
+                className="flex flex-col items-center gap-3 pt-6 pb-12"
               >
                 <ShareCharacterButton
                   edition={edition}
@@ -703,7 +703,7 @@ export default function FlowchartWizard({ wizard }: { wizard: CharacterWizardRet
                 <button
                   type="button"
                   onClick={handleStartOver}
-                  className="rounded-xl border-2 border-white/50 bg-transparent px-8 py-3 font-heading font-semibold text-white transition-all hover:bg-white hover:text-gray-950 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                  className="rounded-lg border border-white/40 bg-transparent px-6 py-2 text-sm font-heading font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white hover:border-white/60"
                 >
                   Start Over
                 </button>

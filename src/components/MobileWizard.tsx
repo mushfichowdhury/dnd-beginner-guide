@@ -487,7 +487,7 @@ export default function MobileWizard({ wizard }: { wizard: CharacterWizardReturn
                   <button
                     type="button"
                     onClick={handleStartOver}
-                    className="rounded-xl border-2 border-white/50 bg-transparent px-8 py-3 font-heading font-semibold text-white transition-all active:scale-95"
+                    className="rounded-lg border border-white/40 bg-transparent px-6 py-2 text-sm font-heading font-semibold text-white/80 transition-all active:scale-95"
                   >
                     Start Over
                   </button>
